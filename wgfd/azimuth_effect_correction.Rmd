@@ -388,8 +388,10 @@ net_area <- sum(normalized_VID * azimuth_diff)
 
 # Plot the normalized VID values
 ggplot(data_for_gam_mirror, aes(x = mirrored_azimuth, y = normalized_VID)) +
-  geom_line() +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+  geom_line() +  # Draw the line
+  geom_area(aes(y = ifelse(normalized_VID > 0, normalized_VID, 0)), fill = "blue", alpha = 0.1) +  # Fill area above zero
+  geom_area(aes(y = ifelse(normalized_VID < 0, normalized_VID, 0)), fill = "red", alpha = 0.1) +  # Fill area below zero
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +  # Add a horizontal line at y = 0
   labs(title = "Normalized VID across azimuth",
        x = "Azimuth (degrees)", y = "Normalized VID") +
   theme_minimal()
