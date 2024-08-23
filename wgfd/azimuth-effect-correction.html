@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1 Azimuth effect correction | azimuth_effect_correction.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.40.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1 Azimuth effect correction | azimuth_effect_correction.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1 Azimuth effect correction | azimuth_effect_correction.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/codefolding-lua-1.1/codefolding-lua.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path=""><a href="#azimuth-effect-correction"><i class="fa fa-check"></i><b>1</b> Azimuth effect correction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path=""><a href="#collect-vertical-profile-statistics"><i class="fa fa-check"></i><b>1.1</b> Collect vertical profile statistics</a></li>
+<li class="chapter" data-level="1.2" data-path=""><a href="#compute-mean-ground-speed-direction"><i class="fa fa-check"></i><b>1.2</b> Compute mean ground speed direction</a></li>
+<li class="chapter" data-level="1.3" data-path=""><a href="#compute-relative-azimuth"><i class="fa fa-check"></i><b>1.3</b> Compute relative azimuth</a></li>
+<li class="chapter" data-level="1.4" data-path=""><a href="#compute-shifted-azimuth"><i class="fa fa-check"></i><b>1.4</b> Compute shifted azimuth</a></li>
+<li class="chapter" data-level="1.5" data-path=""><a href="#mirror-azimuth"><i class="fa fa-check"></i><b>1.5</b> Mirror azimuth</a></li>
+<li class="chapter" data-level="1.6" data-path=""><a href="#normalize-vid"><i class="fa fa-check"></i><b>1.6</b> Normalize VID</a></li>
+<li class="chapter" data-level="1.7" data-path=""><a href="#compute-vid-adjustment-factor"><i class="fa fa-check"></i><b>1.7</b> Compute VID adjustment factor</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!--bookdown:title:end-->
+<!--bookdown:title:start-->
+<div id="azimuth-effect-correction" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">1</span> Azimuth effect correction<a href="#azimuth-effect-correction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="collect-vertical-profile-statistics" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Collect vertical profile statistics<a href="#collect-vertical-profile-statistics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Use <code>integrate_profile()</code> to store density <code>vid</code> and direction <code>dd</code> from each vertical profile of the composite.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>vp_stat_list <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;list&quot;</span>, <span class="fu">length</span>(matching_vp_files))</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">names</span>(vp_stat_list) <span class="ot">&lt;-</span> <span class="fu">names</span>(matching_vp_files)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(matching_vp_files[<span class="dv">1</span>])) { <span class="co">#just run the first composite for now</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(matching_vp_files[[i]])) {</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>    <span class="fu">tryCatch</span>({</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>      <span class="co">#print(paste(&quot;Processing file&quot;, j, &quot;in list&quot;, i))</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>      filename <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;vp/KCYS/&#39;</span>, <span class="fu">basename</span>(matching_vp_files[[i]][j]))</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>      my_vp <span class="ot">&lt;-</span> <span class="fu">read_vpfiles</span>(filename)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>      <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(my_vp)) {</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>        vp_stat_list[[i]]<span class="sc">$</span>vid[[j]] <span class="ot">&lt;-</span> <span class="fu">integrate_profile</span>(my_vp)<span class="sc">$</span>vid</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>        vp_stat_list[[i]]<span class="sc">$</span>dd[[j]]  <span class="ot">&lt;-</span> <span class="fu">integrate_profile</span>(my_vp)<span class="sc">$</span>dd</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>      }</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>      rhdf5<span class="sc">::</span><span class="fu">h5closeAll</span>()</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>    }, <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>      <span class="co"># Error handling</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>      <span class="fu">cat</span>(<span class="st">&quot;Error in processing file&quot;</span>, j, <span class="st">&quot;in list&quot;</span>, i, <span class="st">&quot;: &quot;</span>, e<span class="sc">$</span>message, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>    })</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>  }</span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>}</span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>vp_df_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="cf">for</span> (composite_name <span class="cf">in</span> <span class="fu">names</span>(vp_stat_list)[<span class="dv">1</span>]) { <span class="co">#just run the first composite for now</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>  stats <span class="ot">&lt;-</span> vp_stat_list[[composite_name]]</span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(stats<span class="sc">$</span>vid) <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;&amp;</span> <span class="fu">length</span>(stats<span class="sc">$</span>dd) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>    df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>      <span class="at">vid =</span> <span class="fu">unlist</span>(stats<span class="sc">$</span>vid),  </span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>      <span class="at">dd =</span> <span class="fu">unlist</span>(stats<span class="sc">$</span>dd),    </span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>      <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>  </span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>    )</span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a>    vp_df_list[[composite_name]] <span class="ot">&lt;-</span> df</span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>    vp_df_list[[composite_name]] <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">vid =</span> <span class="fu">numeric</span>(<span class="dv">0</span>), <span class="at">dd =</span> <span class="fu">numeric</span>(<span class="dv">0</span>))</span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>  }</span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a>}</span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="fu">names</span>(vp_df_list)</span></code></pre></div>
+</details>
+<pre><code>## [1] &quot;KCYS_week18_3_V3_25_mean_composite_ppi.Rds&quot;</code></pre>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">head</span>(vp_df_list[[<span class="dv">1</span>]])</span></code></pre></div>
+</details>
+<pre><code>##          vid        dd
+## 1  1.7774323  23.62349
+## 2 15.4680741  19.95190
+## 3  0.0000000       NaN
+## 4  0.9298482 148.40078
+## 5  2.3737285 318.24930
+## 6 20.9692553 327.14442</code></pre>
+</div>
+<div id="compute-mean-ground-speed-direction" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Compute mean ground speed direction<a href="#compute-mean-ground-speed-direction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Adjust <code>dd</code> angles by adding 360° to values less than 180° to handle the circular nature of azimuths, then convert degrees to radians. Obtain weighted cosine and sine using <code>vid</code>, then use <code>atan2()</code> to calculate the mean angle in radians. After converting back to degrees, use the mean angle as the <code>reference_angle</code> in the following step.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="cf">for</span> (name <span class="cf">in</span> <span class="fu">names</span>(vp_df_list)) {</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  df <span class="ot">&lt;-</span> vp_df_list[[name]]</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(df) <span class="co">#remove rows with NA values</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="co">#adjust for circular statistics to avoid problems at 0/360</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  df<span class="sc">$</span>dd_adjusted <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>dd <span class="sc">&lt;</span> <span class="dv">180</span>, df<span class="sc">$</span>dd <span class="sc">+</span> <span class="dv">360</span>, df<span class="sc">$</span>dd) </span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  df<span class="sc">$</span>radians <span class="ot">&lt;-</span> df<span class="sc">$</span>dd_adjusted <span class="sc">*</span> pi <span class="sc">/</span> <span class="dv">180</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  weighted_cos <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">cos</span>(df<span class="sc">$</span>radians) <span class="sc">*</span> df<span class="sc">$</span>vid) <span class="sc">/</span> <span class="fu">sum</span>(df<span class="sc">$</span>vid)</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  weighted_sin <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">sin</span>(df<span class="sc">$</span>radians) <span class="sc">*</span> df<span class="sc">$</span>vid) <span class="sc">/</span> <span class="fu">sum</span>(df<span class="sc">$</span>vid)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  mean_angle_radians <span class="ot">&lt;-</span> <span class="fu">atan2</span>(weighted_sin, weighted_cos)</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  mean_angle_degrees <span class="ot">&lt;-</span> mean_angle_radians <span class="sc">*</span> <span class="dv">180</span> <span class="sc">/</span> pi</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  mean_angle_degrees <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(mean_angle_degrees <span class="sc">&lt;</span> <span class="dv">0</span>, mean_angle_degrees <span class="sc">+</span> <span class="dv">360</span>, mean_angle_degrees)</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">mean_angle_degrees =</span> mean_angle_degrees)</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>  vp_df_list[[name]] <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">data =</span> df, <span class="at">stats =</span> results)</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>}</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>vp_df_list[[<span class="dv">1</span>]]<span class="sc">$</span>stats<span class="sc">$</span>mean_angle_degrees</span></code></pre></div>
+</details>
+<pre><code>## [1] 345.0461</code></pre>
+</div>
+<div id="compute-relative-azimuth" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Compute relative azimuth<a href="#compute-relative-azimuth" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The mean direction of bird movement - the reference angle - now serves as 0°. To calculate relative azmiuth for each grid cell, adjust its original azmiuth by the reference angle. Add <code>relative_azimuth</code> to the <code>ppi</code> object.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">#radar location</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>lon<span class="ot">=</span>my_vp<span class="sc">$</span>attributes<span class="sc">$</span>where<span class="sc">$</span>lon</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>lat<span class="ot">=</span>my_vp<span class="sc">$</span>attributes<span class="sc">$</span>where<span class="sc">$</span>lat</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>add_azimuth_degrees <span class="ot">&lt;-</span> <span class="cf">function</span>(spatial_grid, lon, lat, <span class="at">reference_angle =</span> <span class="dv">0</span>) {</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">inherits</span>(spatial_grid, <span class="st">&quot;SpatialGridDataFrame&quot;</span>)) {</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">&quot;Input must be a SpatialGridDataFrame.&quot;</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  }</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="co">#convert input degrees to radians</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>  lon_center <span class="ot">=</span> lon <span class="sc">*</span> pi <span class="sc">/</span> <span class="dv">180</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>  lat_center <span class="ot">=</span> lat <span class="sc">*</span> pi <span class="sc">/</span> <span class="dv">180</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>  coords <span class="ot">&lt;-</span> <span class="fu">coordinates</span>(spatial_grid)</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>  lon_coords <span class="ot">=</span> coords[, <span class="dv">1</span>] <span class="sc">*</span> pi <span class="sc">/</span> <span class="dv">180</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>  lat_coords <span class="ot">=</span> coords[, <span class="dv">2</span>] <span class="sc">*</span> pi <span class="sc">/</span> <span class="dv">180</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>  azimuth_radians <span class="ot">&lt;-</span> <span class="fu">atan2</span>(<span class="fu">sin</span>(lon_coords <span class="sc">-</span> lon_center),</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>                           <span class="fu">cos</span>(lat_center) <span class="sc">*</span> <span class="fu">tan</span>(lat_coords) <span class="sc">-</span> <span class="fu">sin</span>(lat_center) <span class="sc">*</span> <span class="fu">cos</span>(lon_coords <span class="sc">-</span> lon_center))</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>  azimuth_degrees <span class="ot">&lt;-</span> azimuth_radians <span class="sc">*</span> <span class="dv">180</span> <span class="sc">/</span> pi</span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>  spatial_grid<span class="sc">@</span>data<span class="sc">$</span>azimuth <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(azimuth_degrees <span class="sc">&lt;</span> <span class="dv">0</span>, azimuth_degrees <span class="sc">+</span> <span class="dv">360</span>, azimuth_degrees)</span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>  azimuth_degrees <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(azimuth_degrees <span class="sc">&lt;</span> <span class="dv">0</span>, azimuth_degrees <span class="sc">+</span> <span class="dv">360</span>, azimuth_degrees)</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a>  azimuth_degrees <span class="ot">&lt;-</span> (azimuth_degrees <span class="sc">-</span> reference_angle <span class="sc">+</span> <span class="dv">360</span>) <span class="sc">%%</span> <span class="dv">360</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>  spatial_grid<span class="sc">@</span>data<span class="sc">$</span>relative_azimuth <span class="ot">&lt;-</span> azimuth_degrees</span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>  <span class="fu">return</span>(spatial_grid)</span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a>}</span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a>mean_composite_ppi <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">paste0</span>(<span class="st">&#39;composite_ppi/ppi/&#39;</span>, <span class="fu">names</span>(vp_df_list)[<span class="dv">1</span>]))</span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a>basemap <span class="ot">&lt;-</span> rosm<span class="sc">::</span><span class="fu">osm.types</span>()[<span class="dv">1</span>]</span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a>mean_composite_ppi<span class="sc">$</span>data <span class="ot">&lt;-</span> <span class="fu">add_azimuth_degrees</span>(mean_composite_ppi<span class="sc">$</span>data</span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a>                                               ,<span class="at">lon=</span>lon</span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a>                                               ,<span class="at">lat=</span>lat</span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a>                                               ,<span class="at">reference_angle=</span>vp_df_list[[<span class="dv">1</span>]]<span class="sc">$</span>stats<span class="sc">$</span>mean_angle_degrees)</span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a></span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a><span class="fu">map</span>(mean_composite_ppi, <span class="at">map=</span>basemap, <span class="at">param=</span><span class="st">&#39;VID&#39;</span>, <span class="at">zlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">200</span>)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;week 18 | hour 3 | composite&quot;</span>)</span></code></pre></div>
+</details>
+<p><img src="azimuth_effect_correction_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Function to extract the legend from a ggplot</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>get_legend <span class="ot">&lt;-</span> <span class="cf">function</span>(my_plot) {</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> <span class="fu">ggplot_gtable</span>(<span class="fu">ggplot_build</span>(my_plot))</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  leg <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">sapply</span>(tmp<span class="sc">$</span>grobs, <span class="cf">function</span>(x) x<span class="sc">$</span>name) <span class="sc">==</span> <span class="st">&quot;guide-box&quot;</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  legend <span class="ot">&lt;-</span> tmp<span class="sc">$</span>grobs[[leg]]</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">return</span>(legend)</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>}</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>basemap <span class="ot">&lt;-</span> rosm<span class="sc">::</span><span class="fu">osm.types</span>()[<span class="dv">1</span>]</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co"># Create the two plots with titles</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">map</span>(mean_composite_ppi, <span class="at">map =</span> basemap,</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>          <span class="at">alpha =</span> <span class="fl">0.7</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>          <span class="at">param=</span><span class="st">&#39;azimuth&#39;</span>, <span class="at">zlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">360</span>), <span class="at">palette =</span> <span class="fu">rev</span>(<span class="fu">mako</span>(<span class="dv">256</span>))) <span class="sc">+</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;azimuth&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">map</span>(mean_composite_ppi, <span class="at">map =</span> basemap, </span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>          <span class="at">alpha =</span> <span class="fl">0.7</span>,</span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>          <span class="at">param=</span><span class="st">&#39;relative_azimuth&#39;</span>, <span class="at">zlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">360</span>), <span class="at">palette =</span> <span class="fu">rev</span>(<span class="fu">mako</span>(<span class="dv">256</span>))) <span class="sc">+</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;relative azimuth&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a>legend <span class="ot">&lt;-</span> <span class="fu">get_legend</span>(</span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a>  <span class="fu">map</span>(mean_composite_ppi, <span class="at">param=</span><span class="st">&#39;azimuth&#39;</span>, <span class="at">zlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">360</span>), <span class="at">palette =</span> <span class="fu">rev</span>(<span class="fu">mako</span>(<span class="dv">256</span>))) <span class="sc">+</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>, </span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a>          <span class="at">legend.margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="sc">-</span><span class="dv">10</span>, <span class="at">r =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">0</span>, <span class="at">l =</span> <span class="dv">0</span>),  <span class="co"># Adjust top margin to reduce space</span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a>          <span class="at">legend.box.margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="sc">-</span><span class="dv">10</span>, <span class="at">r =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">0</span>, <span class="at">l =</span> <span class="dv">0</span>))  <span class="co"># Adjust box margin to reduce space</span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a>)</span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="fu">grid.arrange</span>(</span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a>  <span class="fu">arrangeGrob</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>),</span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a>  legend,</span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">1</span>,</span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a>  <span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">1</span>)  <span class="co"># Keep this ratio; it&#39;s less relevant for controlling the gap</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a>)</span></code></pre></div>
+</details>
+<p><img src="azimuth_effect_correction_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+</div>
+<div id="compute-shifted-azimuth" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Compute shifted azimuth<a href="#compute-shifted-azimuth" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Fit GAM to VID over relative_azimuth and find the peaks of the fitted values. The difference between 90° and the first peak
+should give you the value by which to shift your relative azmiuth. The purple line in the plot below shows the final azimuth to be used before mirroring.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>mirror_azimuth <span class="ot">&lt;-</span> <span class="cf">function</span>(azimuth) {</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">ifelse</span>(azimuth <span class="sc">&gt;</span> <span class="dv">180</span>, <span class="dv">360</span> <span class="sc">-</span> azimuth, azimuth)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>}</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>shift_azimuth <span class="ot">&lt;-</span> <span class="cf">function</span>(azimuth, degrees, <span class="at">x_max =</span> <span class="dv">360</span>) {</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  shifted_azimuth <span class="ot">&lt;-</span> (azimuth <span class="sc">+</span> degrees) <span class="sc">%%</span> x_max</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">ifelse</span>(shifted_azimuth <span class="sc">&lt;</span> <span class="dv">0</span>, shifted_azimuth <span class="sc">+</span> x_max, shifted_azimuth)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>}</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="do">### only take values within 50 KM range</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>distance_threshold <span class="ot">&lt;-</span> <span class="fu">set_units</span>(<span class="dv">50000</span>, <span class="st">&quot;m&quot;</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>sf_data <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(mean_composite_ppi<span class="sc">$</span>data)</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="fu">st_crs</span>(sf_data) <span class="ot">&lt;-</span> <span class="dv">4326</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>sf_data_utm <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(sf_data, <span class="dv">26913</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>radar_station <span class="ot">&lt;-</span> <span class="fu">st_sfc</span>(<span class="fu">st_point</span>(<span class="fu">c</span>(lon, lat)), <span class="at">crs =</span> <span class="dv">4326</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>radar_station_utm <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(radar_station, <span class="dv">26913</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>distances <span class="ot">&lt;-</span> <span class="fu">st_distance</span>(sf_data_utm, radar_station_utm)</span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>within_50km <span class="ot">&lt;-</span> sf_data_utm[distances <span class="sc">&lt;=</span> distance_threshold,]</span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a>data_for_plot <span class="ot">&lt;-</span> data_for_plot_mirror <span class="ot">&lt;-</span>  <span class="fu">as.data.frame</span>(<span class="fu">na.omit</span>(within_50km))</span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a>data_for_gam <span class="ot">&lt;-</span> data_for_gam_mirror <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(data_for_plot[, <span class="fu">c</span>(<span class="st">&quot;VID&quot;</span>, <span class="st">&quot;relative_azimuth&quot;</span>)])</span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a>gam_fit <span class="ot">&lt;-</span> <span class="fu">gam</span>(VID <span class="sc">~</span> <span class="fu">s</span>(relative_azimuth, <span class="at">bs =</span> <span class="st">&quot;cc&quot;</span>, <span class="at">k=</span><span class="dv">6</span>), <span class="at">data =</span> data_for_gam)</span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="fu">summary</span>(gam_fit)</span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a>data_for_plot<span class="sc">$</span>fitted_values <span class="ot">&lt;-</span> <span class="fu">predict</span>(gam_fit, <span class="at">newdata =</span> data_for_plot, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a></span>
+<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a><span class="co">#plot original VID</span></span>
+<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a><span class="fu">ggplot</span>(data_for_gam, <span class="fu">aes</span>(<span class="at">x =</span> relative_azimuth, <span class="at">y =</span> VID)) <span class="sc">+</span></span>
+<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;VID ~ azimuth (50 km range)&quot;</span>,</span>
+<span id="cb9-34"><a href="#cb9-34" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Azimuth&quot;</span>, <span class="at">y =</span> <span class="st">&quot;VID&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-35"><a href="#cb9-35" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+</details>
+<p><img src="azimuth_effect_correction_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Filter data into two segments</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>before_180 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(data_for_plot[data_for_plot<span class="sc">$</span>relative_azimuth <span class="sc">&lt;</span> <span class="dv">180</span>, ])</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>after_180 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(data_for_plot[data_for_plot<span class="sc">$</span>relative_azimuth <span class="sc">&gt;=</span> <span class="dv">180</span>, ])</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co"># Find the peak VID value before azimuth 180</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">nrow</span>(before_180) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  first_peak_value <span class="ot">&lt;-</span> <span class="fu">max</span>(before_180<span class="sc">$</span>fitted_values)</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  first_peak_index <span class="ot">&lt;-</span> <span class="fu">which.max</span>(before_180<span class="sc">$</span>fitted_values)</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>  first_peak_azimuth <span class="ot">&lt;-</span> before_180<span class="sc">$</span>relative_azimuth[first_peak_index]</span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>  first_peak_value <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>  first_peak_azimuth <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>}</span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co"># Find the peak VID value after azimuth 180</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">nrow</span>(after_180) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a>  second_peak_value <span class="ot">&lt;-</span> <span class="fu">max</span>(after_180<span class="sc">$</span>fitted_values)</span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a>  second_peak_index <span class="ot">&lt;-</span> <span class="fu">which.max</span>(after_180<span class="sc">$</span>fitted_values)</span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>  second_peak_azimuth <span class="ot">&lt;-</span> after_180<span class="sc">$</span>relative_azimuth[second_peak_index]</span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a>  second_peak_value <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a>  second_peak_azimuth <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a>}</span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co"># Output the peaks</span></span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;first peak: VID =&quot;</span>, first_peak_value, <span class="st">&quot;, azimuth =&quot;</span>, first_peak_azimuth, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;second peak: VID =&quot;</span>, second_peak_value, <span class="st">&quot;, azimuth =&quot;</span>, second_peak_azimuth, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a>shift_degrees <span class="ot">=</span> (<span class="dv">90</span> <span class="sc">-</span> first_peak_azimuth)</span>
+<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a>data_for_plot<span class="sc">$</span>shifted_azimuth <span class="ot">&lt;-</span> <span class="fu">sapply</span>(data_for_plot<span class="sc">$</span>relative_azimuth, shift_azimuth, <span class="at">degrees =</span> shift_degrees)</span>
+<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a><span class="co">#mirror the shifted values</span></span>
+<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a>data_for_gam_mirror<span class="sc">$</span>mirrored_azimuth <span class="ot">&lt;-</span> <span class="fu">sapply</span>(data_for_plot<span class="sc">$</span>shifted_azimuth, mirror_azimuth)</span>
+<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a>gam_fit <span class="ot">&lt;-</span> <span class="fu">gam</span>(VID <span class="sc">~</span> <span class="fu">s</span>(mirrored_azimuth, <span class="at">bs =</span> <span class="st">&quot;cc&quot;</span>, <span class="at">k=</span><span class="dv">6</span>), <span class="at">data =</span> data_for_gam_mirror)</span>
+<span id="cb10-36"><a href="#cb10-36" tabindex="-1"></a><span class="fu">summary</span>(gam_fit)</span>
+<span id="cb10-37"><a href="#cb10-37" tabindex="-1"></a>data_for_gam_mirror<span class="sc">$</span>fitted_values <span class="ot">&lt;-</span> <span class="fu">predict</span>(gam_fit, <span class="at">newdata =</span> data_for_gam_mirror, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb10-38"><a href="#cb10-38" tabindex="-1"></a></span>
+<span id="cb10-39"><a href="#cb10-39" tabindex="-1"></a></span>
+<span id="cb10-40"><a href="#cb10-40" tabindex="-1"></a>peak_difference <span class="ot">&lt;-</span> <span class="fu">round</span>(second_peak_azimuth <span class="sc">-</span> first_peak_azimuth, <span class="dv">2</span>)</span>
+<span id="cb10-41"><a href="#cb10-41" tabindex="-1"></a>center_azimuth <span class="ot">&lt;-</span> (first_peak_azimuth <span class="sc">+</span> second_peak_azimuth) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb10-42"><a href="#cb10-42" tabindex="-1"></a>center_value <span class="ot">&lt;-</span> (first_peak_value <span class="sc">+</span> second_peak_value) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb10-43"><a href="#cb10-43" tabindex="-1"></a></span>
+<span id="cb10-44"><a href="#cb10-44" tabindex="-1"></a></span>
+<span id="cb10-45"><a href="#cb10-45" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_for_plot, <span class="fu">aes</span>(<span class="at">x =</span> relative_azimuth, <span class="at">y =</span> VID)) <span class="sc">+</span></span>
+<span id="cb10-46"><a href="#cb10-46" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="st">&quot;Observed&quot;</span>), <span class="at">alpha =</span> <span class="fl">0.05</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb10-47"><a href="#cb10-47" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> fitted_values, <span class="at">color =</span> <span class="st">&quot;Fitted&quot;</span>), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb10-48"><a href="#cb10-48" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> shifted_azimuth, <span class="at">y =</span> fitted_values, <span class="at">color =</span> <span class="st">&quot;Shifted&quot;</span>), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb10-49"><a href="#cb10-49" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;VID&quot;</span>, <span class="at">title =</span> <span class="st">&quot;GAM fit VID ~ Azimuth&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-50"><a href="#cb10-50" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">&quot;&quot;</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Observed&quot;</span> <span class="ot">=</span> <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;Fitted&quot;</span> <span class="ot">=</span> <span class="st">&quot;red&quot;</span>, <span class="st">&quot;Shifted&quot;</span> <span class="ot">=</span> <span class="st">&quot;purple&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb10-51"><a href="#cb10-51" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb10-52"><a href="#cb10-52" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb10-53"><a href="#cb10-53" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">0</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">0</span>, <span class="at">l =</span> <span class="dv">0</span>, <span class="at">r =</span> <span class="dv">0</span>))) <span class="sc">+</span>  <span class="co"># Minimize x-axis label space</span></span>
+<span id="cb10-54"><a href="#cb10-54" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> first_peak_azimuth, <span class="at">y =</span> first_peak_value, <span class="at">label =</span> <span class="fu">paste</span>(<span class="fu">round</span>(first_peak_azimuth), <span class="st">&quot;°&quot;</span>, <span class="at">sep=</span><span class="st">&quot; &quot;</span>)),</span>
+<span id="cb10-55"><a href="#cb10-55" tabindex="-1"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-56"><a href="#cb10-56" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> second_peak_azimuth, <span class="at">y =</span> second_peak_value, <span class="at">label =</span> <span class="fu">paste</span>(<span class="fu">round</span>(second_peak_azimuth), <span class="st">&quot;°&quot;</span>, <span class="at">sep=</span><span class="st">&quot; &quot;</span>)),</span>
+<span id="cb10-57"><a href="#cb10-57" tabindex="-1"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-58"><a href="#cb10-58" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> first_peak_azimuth, <span class="at">y =</span> first_peak_value, <span class="at">xend =</span> second_peak_azimuth, <span class="at">yend =</span> second_peak_value),</span>
+<span id="cb10-59"><a href="#cb10-59" tabindex="-1"></a>               <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-60"><a href="#cb10-60" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">100</span>) <span class="sc">+</span></span>
+<span id="cb10-61"><a href="#cb10-61" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">180</span>, <span class="at">linetype =</span> <span class="st">&quot;solid&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">1.5</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb10-62"><a href="#cb10-62" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> center_azimuth, <span class="at">y =</span> center_value, <span class="at">label =</span> <span class="fu">paste</span>(peak_difference, <span class="st">&quot;°&quot;</span>)),</span>
+<span id="cb10-63"><a href="#cb10-63" tabindex="-1"></a>            <span class="at">vjust =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>)</span>
+<span id="cb10-64"><a href="#cb10-64" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span>
+<span id="cb10-65"><a href="#cb10-65" tabindex="-1"></a>  </span>
+<span id="cb10-66"><a href="#cb10-66" tabindex="-1"></a>plot</span></code></pre></div>
+</details>
+<p><img src="azimuth_effect_correction_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="mirror-azimuth" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> Mirror azimuth<a href="#mirror-azimuth" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Mirror azmiuths across the 180° axis</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co">#plot mirrored VID</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">ggplot</span>(data_for_gam_mirror, <span class="fu">aes</span>(<span class="at">x =</span> mirrored_azimuth, <span class="at">y =</span> VID)) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;VID ~ azimuth (50 km range)&quot;</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Azimuth&quot;</span>, <span class="at">y =</span> <span class="st">&quot;VID&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+</details>
+<p><img src="azimuth_effect_correction_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="normalize-vid" class="section level2 hasAnchor" number="1.6">
+<h2><span class="header-section-number">1.6</span> Normalize VID<a href="#normalize-vid" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>First center the fitted VID values around zero by subtracting the mean, then normalize between -1 and 1 by dividing by the maximum absolute value. The net area under the normalized curve is calculated to confirms correct normalization (should be close to 0).</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># center the data around zero</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>centered_VID <span class="ot">&lt;-</span> data_for_gam_mirror<span class="sc">$</span>fitted_values <span class="sc">-</span> <span class="fu">mean</span>(data_for_gam_mirror<span class="sc">$</span>fitted_values)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co"># normalize the data to range -1 to 1</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>max_abs_value <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">abs</span>(centered_VID))</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>normalized_VID <span class="ot">&lt;-</span> centered_VID <span class="sc">/</span> max_abs_value</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co"># add normalized data to thae dataframe</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>data_for_gam_mirror<span class="sc">$</span>normalized_VID <span class="ot">&lt;-</span> normalized_VID</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co"># calculate the net area to verify it&#39;s close to zero</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>azimuth_diff <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">diff</span>(data_for_gam_mirror<span class="sc">$</span>mirrored_azimuth))</span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>net_area <span class="ot">&lt;-</span> <span class="fu">sum</span>(normalized_VID <span class="sc">*</span> azimuth_diff)</span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co"># Plot the normalized VID values</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="fu">ggplot</span>(data_for_gam_mirror, <span class="fu">aes</span>(<span class="at">x =</span> mirrored_azimuth, <span class="at">y =</span> normalized_VID)) <span class="sc">+</span></span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Normalized VID across azimuth&quot;</span>,</span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Azimuth (degrees)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Normalized VID&quot;</span>) <span class="sc">+</span></span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+</details>
+<p><img src="azimuth_effect_correction_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># Output the net area</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;Net area under the curve: &quot;</span>, net_area))</span></code></pre></div>
+</details>
+<pre><code>## [1] &quot;Net area under the curve:  -2.77989437025283e-15&quot;</code></pre>
+</div>
+<div id="compute-vid-adjustment-factor" class="section level2 hasAnchor" number="1.7">
+<h2><span class="header-section-number">1.7</span> Compute VID adjustment factor<a href="#compute-vid-adjustment-factor" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The total sum of the adjusted VID values must remain consistent with the original sum. We calculate the proportion of positive and negative adjustments based on the sum of VID values for data points with normalized VID values greater than and less than or equal to zero. Then we apply adjustment to each normalized VID value, reducing positive values and boosting negative ones. Finally, a scaling factor is computed by dividing the original sum of VID values by the sum of the adjusted VID values, ensuring the total remains unchanged.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>valid_data <span class="ot">&lt;-</span> data_for_gam_mirror[<span class="sc">!</span><span class="fu">is.nan</span>(data_for_gam_mirror<span class="sc">$</span>VID), ]</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>total_VID <span class="ot">&lt;-</span> <span class="fu">sum</span>(valid_data<span class="sc">$</span>VID)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>positive_adjustment_sum <span class="ot">&lt;-</span> <span class="fu">sum</span>(valid_data<span class="sc">$</span>VID[valid_data<span class="sc">$</span>normalized_VID <span class="sc">&gt;</span> <span class="dv">0</span>])</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>negative_adjustment_sum <span class="ot">&lt;-</span> <span class="fu">sum</span>(valid_data<span class="sc">$</span>VID[valid_data<span class="sc">$</span>normalized_VID <span class="sc">&lt;=</span> <span class="dv">0</span>])</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>prop_positive <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(positive_adjustment_sum <span class="sc">&gt;</span> <span class="dv">0</span>, positive_adjustment_sum <span class="sc">/</span> total_VID, <span class="dv">0</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>prop_negative <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(negative_adjustment_sum <span class="sc">&gt;</span> <span class="dv">0</span>, negative_adjustment_sum <span class="sc">/</span> total_VID, <span class="dv">0</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>valid_data<span class="sc">$</span>adjustment_factor <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(valid_data<span class="sc">$</span>normalized_VID <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>                                       <span class="dv">1</span> <span class="sc">-</span> prop_positive <span class="sc">*</span> <span class="fu">abs</span>(valid_data<span class="sc">$</span>normalized_VID),</span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>                                       <span class="dv">1</span> <span class="sc">+</span> prop_negative <span class="sc">*</span> <span class="fu">abs</span>(valid_data<span class="sc">$</span>normalized_VID))</span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a>valid_data<span class="sc">$</span>adjusted_VID <span class="ot">&lt;-</span> valid_data<span class="sc">$</span>VID <span class="sc">*</span> valid_data<span class="sc">$</span>adjustment_factor</span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a>adjusted_sum <span class="ot">&lt;-</span> <span class="fu">sum</span>(valid_data<span class="sc">$</span>adjusted_VID)</span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>original_sum <span class="ot">&lt;-</span> <span class="fu">sum</span>(valid_data<span class="sc">$</span>VID)</span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>scaling_factor <span class="ot">&lt;-</span> original_sum <span class="sc">/</span> adjusted_sum</span>
+<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a>valid_data<span class="sc">$</span>adjustment_factor <span class="ot">&lt;-</span> valid_data<span class="sc">$</span>adjustment_factor <span class="sc">*</span> scaling_factor</span>
+<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a>valid_data<span class="sc">$</span>adjusted_VID <span class="ot">&lt;-</span> valid_data<span class="sc">$</span>VID <span class="sc">*</span> valid_data<span class="sc">$</span>adjustment_factor</span>
+<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a>data_for_plot_mirror<span class="sc">$</span>adjusted_VID[<span class="sc">!</span><span class="fu">is.nan</span>(data_for_plot_mirror<span class="sc">$</span>VID)] <span class="ot">&lt;-</span> valid_data<span class="sc">$</span>adjusted_VID</span>
+<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="#cb15-24" tabindex="-1"></a>sum_adjusted_VID <span class="ot">&lt;-</span> <span class="fu">sum</span>(valid_data<span class="sc">$</span>adjusted_VID)</span>
+<span id="cb15-25"><a href="#cb15-25" tabindex="-1"></a></span>
+<span id="cb15-26"><a href="#cb15-26" tabindex="-1"></a><span class="fu">ggplot</span>(valid_data, <span class="fu">aes</span>(<span class="at">x =</span> mirrored_azimuth, <span class="at">y =</span> adjustment_factor)) <span class="sc">+</span></span>
+<span id="cb15-27"><a href="#cb15-27" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">&quot;green&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb15-28"><a href="#cb15-28" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Adjustment factor ~ azimuth&quot;</span>,</span>
+<span id="cb15-29"><a href="#cb15-29" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;azimuth&quot;</span>,</span>
+<span id="cb15-30"><a href="#cb15-30" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;adjustment factor&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-31"><a href="#cb15-31" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+</details>
+<p><img src="azimuth_effect_correction_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>range_data <span class="ot">&lt;-</span> <span class="fu">apply</span>(valid_data, <span class="dv">2</span>, range)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">print</span>(range_data)</span></code></pre></div>
+</details>
+<pre><code>##           VID relative_azimuth mirrored_azimuth fitted_values normalized_VID
+## [1,]   0.0000       0.03029191       0.02660478      16.61137     -0.5471715
+## [2,] 151.4724     359.97796037     179.99311442      59.64078      1.0000000
+##      adjustment_factor adjusted_VID
+## [1,]         0.4913681       0.0000
+## [2,]         1.4899880     188.7357</code></pre>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># Adjust the function to return NA if the input VID is NA</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>find_closest_adjusted_VID <span class="ot">&lt;-</span> <span class="cf">function</span>(vid_value, valid_data) {</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(vid_value)) {</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>    closest_index <span class="ot">&lt;-</span> <span class="fu">which.min</span>(<span class="fu">abs</span>(valid_data<span class="sc">$</span>VID <span class="sc">-</span> vid_value))</span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>    <span class="fu">return</span>(valid_data<span class="sc">$</span>adjusted_VID[closest_index])</span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>  }</span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>}</span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>mean_composite_ppi<span class="sc">$</span>data<span class="sc">$</span>adjusted_VID <span class="ot">&lt;-</span> <span class="fu">sapply</span>(mean_composite_ppi<span class="sc">$</span>data<span class="sc">$</span>VID, find_closest_adjusted_VID, <span class="at">valid_data =</span> valid_data)</span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a><span class="fu">map</span>(mean_composite_ppi, <span class="at">map=</span>basemap, <span class="at">param=</span><span class="st">&#39;adjusted_VID&#39;</span>, <span class="at">zlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">200</span>)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;week 18 | hour 3 | composite&quot;</span>)</span></code></pre></div>
+</details>
+<p><img src="azimuth_effect_correction_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": false,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
