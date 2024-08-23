@@ -292,7 +292,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a>                                               ,<span class="at">lat=</span>lat</span>
 <span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a>                                               ,<span class="at">reference_angle=</span>vp_df_list[[<span class="dv">1</span>]]<span class="sc">$</span>stats<span class="sc">$</span>mean_angle_degrees)</span>
 <span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a></span>
-<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a><span class="fu">map</span>(mean_composite_ppi, <span class="at">map=</span>basemap, <span class="at">param=</span><span class="st">&#39;VID&#39;</span>, <span class="at">zlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">200</span>)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;week 18 | hour 3 | composite&quot;</span>)</span></code></pre></div>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a><span class="fu">map</span>(mean_composite_ppi, <span class="at">map=</span>basemap, <span class="at">param=</span><span class="st">&#39;VID&#39;</span>, <span class="at">zlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;week 18 | hour 3 | composite&quot;</span>)</span></code></pre></div>
 </details>
 <p><img src="azimuth_effect_correction_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
@@ -554,7 +554,7 @@ should give you the value by which to shift your relative azmiuth. The purple li
 <span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a></span>
 <span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>mean_composite_ppi<span class="sc">$</span>data<span class="sc">$</span>adjusted_VID <span class="ot">&lt;-</span> <span class="fu">sapply</span>(mean_composite_ppi<span class="sc">$</span>data<span class="sc">$</span>VID, find_closest_adjusted_VID, <span class="at">valid_data =</span> valid_data)</span>
 <span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a></span>
-<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a><span class="fu">map</span>(mean_composite_ppi, <span class="at">map=</span>basemap, <span class="at">param=</span><span class="st">&#39;adjusted_VID&#39;</span>, <span class="at">zlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">200</span>)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;week 18 | hour 3 | composite&quot;</span>)</span></code></pre></div>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a><span class="fu">map</span>(mean_composite_ppi, <span class="at">map=</span>basemap, <span class="at">param=</span><span class="st">&#39;adjusted_VID&#39;</span>, <span class="at">zlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;week 18 | hour 3 | composite&quot;</span>)</span></code></pre></div>
 </details>
 <p><img src="azimuth_effect_correction_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>

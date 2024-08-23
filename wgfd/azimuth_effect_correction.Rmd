@@ -193,7 +193,7 @@ mean_composite_ppi$data <- add_azimuth_degrees(mean_composite_ppi$data
                                                ,lat=lat
                                                ,reference_angle=vp_df_list[[1]]$stats$mean_angle_degrees)
 
-map(mean_composite_ppi, map=basemap, param='VID', zlim=c(0,200)) + ggtitle("week 18 | hour 3 | composite")
+map(mean_composite_ppi, map=basemap, param='VID', zlim=c(0,100)) + ggtitle("week 18 | hour 3 | composite")
 
 # Function to extract the legend from a ggplot
 get_legend <- function(my_plot) {
@@ -458,7 +458,7 @@ find_closest_adjusted_VID <- function(vid_value, valid_data) {
 
 mean_composite_ppi$data$adjusted_VID <- sapply(mean_composite_ppi$data$VID, find_closest_adjusted_VID, valid_data = valid_data)
 
-map(mean_composite_ppi, map=basemap, param='adjusted_VID', zlim=c(0,200)) + ggtitle("week 18 | hour 3 | composite")
+map(mean_composite_ppi, map=basemap, param='adjusted_VID', zlim=c(0,100)) + ggtitle("week 18 | hour 3 | composite")
 
 ```
 
