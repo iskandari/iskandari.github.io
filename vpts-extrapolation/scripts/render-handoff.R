@@ -12,7 +12,7 @@ metrics <- read.csv('summaries/crossed/comparison.csv')
 fit <- jsonlite::fromJSON('summaries/crossed/fit.json')
 history <- jsonlite::fromJSON('summaries/crossed/history.json')$valid_stop$k3_density_rmse
 roles <- c('valid_report', 'test_temporal', 'test_spatial', 'test_spatiotemporal')
-labels <- c('Historical reporting', 'Temporal test', 'Spatial test', 'Spatial + temporal')
+labels <- c('Historical', 'Temporal test', 'Spatial test', 'Spatial + temporal')
 colors <- c('#596675', '#007F83', '#CC7530', '#7861A8')
 dir.create('docs/figures', showWarnings = FALSE)
 plot_theme <- function(...) par(family='Report Open Sans', col.axis='#52606D', col.lab='#263744',

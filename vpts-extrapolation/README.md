@@ -125,12 +125,14 @@ A held-out year at familiar radar stations answers the next-year transfer questi
 
 ### What the evaluation categories mean
 
-| Category | Which radar sites? | Which years? |
-|---|---|---|
-| **Historical reporting** | Sites included in training, but separate held-out reporting nights | 2013–2024 |
-| **Temporal test** | Sites included in training | 2025 |
-| **Spatial test** | 21 sites excluded from training entirely | 2013–2024 |
-| **Spatial + temporal** | Those same 21 excluded sites | 2025 |
+| Category | Which radar sites? | What is held out? | Question answered |
+|---|---|---|---|
+| **Historical** | Familiar sites: other nights at these radars were used for training | Separate held-out nights **within 2013–2024**, the same range of years used for training | Can the model predict unseen nights within the historical period? |
+| **Temporal test** | Familiar sites: historical nights at these radars were used for training | **All of 2025**, a later year excluded entirely from training and early stopping | Can the model transfer to a future year's migration seasons? |
+| **Spatial test** | 21 unfamiliar sites excluded from training entirely | Every observation at these sites; evaluated in **2013–2024** | Can the model transfer to new sites within the historical period? |
+| **Spatial + temporal** | Those same 21 unfamiliar sites | Both the sites and the later year; evaluated in **2025** | Can the model transfer to new sites in a future year? |
+
+**Historical versus temporal test:** both evaluate unseen observations at familiar radar sites. The difference is the time boundary: the Historical evaluation holds out individual radar-nights *within the training-era years* (2013–2024), whereas the temporal test holds out the *entire subsequent year* (2025, including both migration seasons). The Historical evaluation therefore measures performance within the historical period; the temporal test measures transfer forward in time. Neither score is computed on training rows. Historical nights are also separate from the stopping-validation nights used to select the number of boosting rounds.
 
 **How spatial + temporal was done:** evaluate the model on **2025 observations from the 21 held-out radars**. Training excluded both those radars in every year and all 2025 observations at every radar, so neither their locations nor that year contributed to fitting. This is the intersection of the site and year exclusions, evaluated using the same fitted model.
 
@@ -148,7 +150,7 @@ The complete frozen list and coordinates are in [the site manifest](metadata/con
 |---|---|---:|---:|
 | Training | 2013–2024 | 120 | 29,822,840 |
 | Stopping validation | 2013–2024 | 120 | 1,692,390 |
-| Historical reporting | 2013–2024 | 119 | 1,702,383 |
+| Historical | 2013–2024 | 119 | 1,702,383 |
 | Temporal test | 2025 | 119 | 2,881,618 |
 | Spatial test | 2013–2024 | 21 | 6,400,798 |
 | Spatial + temporal test | 2025 | 21 | 592,939 |
@@ -165,13 +167,13 @@ The new model selected **3,633 rounds**, with stopping RMSE **62.6721 birds/km³
 
 ## Results of the crossed experiment
 
-**Reading the tables:** R² is higher-is-better; RMSE is lower-is-better; bias is prediction minus observation, so closer to zero is better. Green bold values mark the best numeric score **across evaluation cells at the same k**, including historical reporting. “All” pools the k=1–5 rows rather than averaging the five k scores. Comparisons use unrounded values. Highlights are descriptive and are not significance tests: these evaluation populations differ.
+**Reading the tables:** R² is higher-is-better; RMSE is lower-is-better; bias is prediction minus observation, so closer to zero is better. Green bold values mark the best numeric score **across evaluation cells at the same k**, including Historical. “All” pools the k=1–5 rows rather than averaging the five k scores. Comparisons use unrounded values. Highlights are descriptive and are not significance tests: these evaluation populations differ.
 
 ### Raw-density R² overview
 
 ![Figure 2. Raw-density R² by withheld block size k. Each point pools all target depths in that block. Performance declines with greater extrapolation depth; the four curves evaluate the same fitted model on different site/year populations. Connecting lines are visual guides.](docs/figures/density-r2-by-k.png)
 
-| k | Historical reporting | Temporal test | Spatial test | Spatial + temporal |
+| k | Historical | Temporal test | Spatial test | Spatial + temporal |
 |---|---:|---:|---:|---:|
 | All | 0.7164 | <span class="best">0.7171</span> | 0.6854 | 0.7057 |
 | 1 | <span class="best">0.9200</span> | 0.9188 | 0.8989 | 0.9035 |
@@ -186,12 +188,12 @@ RMSE and bias are in birds/km³.
 
 | Evaluation | k | Rows | R² | RMSE | Bias |
 |---|---|---:|---:|---:|---:|
-| Historical reporting | All | 1,702,383 | 0.7164 | 65.12 | -4.66 |
-| Historical reporting | 1 | 166,852 | <span class="best">0.9200</span> | <span class="best">32.35</span> | -0.88 |
-| Historical reporting | 2 | 281,260 | <span class="best">0.8433</span> | <span class="best">47.28</span> | -2.44 |
-| Historical reporting | 3 | 363,537 | 0.7477 | 61.46 | -3.61 |
-| Historical reporting | 4 | 423,804 | 0.6627 | 71.92 | -5.83 |
-| Historical reporting | 5 | 466,930 | <span class="best">0.6107</span> | <span class="best">78.13</span> | -7.10 |
+| Historical | All | 1,702,383 | 0.7164 | 65.12 | -4.66 |
+| Historical | 1 | 166,852 | <span class="best">0.9200</span> | <span class="best">32.35</span> | -0.88 |
+| Historical | 2 | 281,260 | <span class="best">0.8433</span> | <span class="best">47.28</span> | -2.44 |
+| Historical | 3 | 363,537 | 0.7477 | 61.46 | -3.61 |
+| Historical | 4 | 423,804 | 0.6627 | 71.92 | -5.83 |
+| Historical | 5 | 466,930 | <span class="best">0.6107</span> | <span class="best">78.13</span> | -7.10 |
 | Temporal test | All | 2,881,618 | <span class="best">0.7171</span> | 66.28 | <span class="best">+0.37</span> |
 | Temporal test | 1 | 270,911 | 0.9188 | 33.45 | +3.89 |
 | Temporal test | 2 | 469,486 | 0.8362 | 49.55 | +2.83 |
@@ -217,12 +219,12 @@ Both targets and decoded predictions are divided by observed-upper VID. These sc
 
 | Evaluation | k | Rows | R² | RMSE | Bias |
 |---|---|---:|---:|---:|---:|
-| Historical reporting | All | 1,702,383 | 0.5542 | 2.742 | -0.354 |
-| Historical reporting | 1 | 166,852 | <span class="best">0.8274</span> | 1.071 | -0.083 |
-| Historical reporting | 2 | 281,260 | <span class="best">0.7132</span> | 1.715 | -0.188 |
-| Historical reporting | 3 | 363,537 | 0.6102 | 2.389 | -0.290 |
-| Historical reporting | 4 | 423,804 | 0.5168 | 3.040 | -0.444 |
-| Historical reporting | 5 | 466,930 | 0.4829 | 3.521 | -0.518 |
+| Historical | All | 1,702,383 | 0.5542 | 2.742 | -0.354 |
+| Historical | 1 | 166,852 | <span class="best">0.8274</span> | 1.071 | -0.083 |
+| Historical | 2 | 281,260 | <span class="best">0.7132</span> | 1.715 | -0.188 |
+| Historical | 3 | 363,537 | 0.6102 | 2.389 | -0.290 |
+| Historical | 4 | 423,804 | 0.5168 | 3.040 | -0.444 |
+| Historical | 5 | 466,930 | 0.4829 | 3.521 | -0.518 |
 | Temporal test | All | 2,881,618 | <span class="best">0.5630</span> | 2.627 | -0.144 |
 | Temporal test | 1 | 270,911 | 0.8136 | 1.018 | +0.101 |
 | Temporal test | 2 | 469,486 | 0.7064 | 1.638 | <span class="best">+0.027</span> |
@@ -250,7 +252,7 @@ Pooled metrics give more influence to sites with more rows. To complement them, 
 
 | Evaluation | Sites | Equal-site RMSE (birds/km³) | 95% site-bootstrap interval |
 |---|---:|---:|---|
-| Historical reporting | 119 | 60.18 | 55.34–65.37 |
+| Historical | 119 | 60.18 | 55.34–65.37 |
 | Temporal test | 118 | 61.11 | 56.46–65.94 |
 | Spatial test | 21 | 60.88 | 53.23–68.01 |
 | Spatial + temporal | 21 | <span class="best">57.05</span> | 49.74–64.02 |
@@ -259,9 +261,9 @@ Full metrics, including k/gap groups, normalized and density scales, underpredic
 
 ## Interpretation and limitations
 
-**Temporal transfer:** k=3 raw-density R² is 0.7528 in 2025 versus 0.7477 on historical reporting nights. This supports transfer of the profile-extrapolation relationship to that later year at familiar sites; it does not establish robustness across all future years.
+**Temporal transfer:** k=3 raw-density R² is 0.7528 in 2025 versus 0.7477 on historical nights. This supports transfer of the profile-extrapolation relationship to that later year at familiar sites; it does not establish robustness across all future years.
 
-**Spatial transfer:** historical unseen-site R² is modestly lower across k=1–5. At k=3 it is 0.7201, with pooled RMSE 63.17 versus 61.46 on seen-site historical reporting. The difference is consistent with a spatial transfer cost, but the site and observation populations also differ.
+**Spatial transfer:** historical unseen-site R² is modestly lower across k=1–5. At k=3 it is 0.7201, with pooled RMSE 63.17 versus 61.46 on seen-site historical. The difference is consistent with a spatial transfer cost, but the site and observation populations also differ.
 
 **Combined transfer:** unseen sites in 2025 give k=3 R² 0.7460 and RMSE 59.70, compared with 0.7528 and 62.08 at seen sites in 2025. The lower combined-test RMSE does not imply unseen sites are intrinsically easier: response variance and intensity distributions differ across cells. R² and RMSE should be read together.
 
