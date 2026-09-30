@@ -72,24 +72,18 @@ points(x$equal_site_rmse,y,pch=21,bg=colors,col='white',cex=1.6)
 text(x$equal_site_rmse,y+.25,labels=sprintf('%.2f',x$equal_site_rmse),col=colors,cex=.9)
 dev.off()
 
-font_header <- tempfile(fileext='.html')
-font_files <- c('OpenSans.ttf','OpenSansBold.ttf','OpenSansItalic.ttf','OpenSansBoldItalic.ttf')
-font_rules <- vapply(seq_along(font_files), function(i) sprintf(
-  "@font-face{font-family:'Open Sans';font-style:%s;font-weight:%d;font-display:swap;src:url(data:font/ttf;base64,%s) format('truetype');}",
-  if(i>2) 'italic' else 'normal', if(i%%2==0) 700 else 400,
-  base64enc::base64encode(file.path('docs/fonts',font_files[i]))), character(1))
-writeLines(c('<style>',font_rules,'</style>'),font_header)
 rmarkdown::render('README.md', output_file='README.html',
-  output_format=rmarkdown::html_document(toc=TRUE,toc_depth=3,theme=NULL,
+  output_format=rmarkdown::html_document(toc=TRUE,toc_depth=3,theme="spacelab",
     self_contained=TRUE,mathjax=NULL,highlight='textmate',code_folding='none',
-    includes=rmarkdown::includes(in_header=c(font_header,'docs/handoff-style.html')),
+    includes=rmarkdown::includes(in_header='docs/handoff-style.html'),
     pandoc_args=c('--metadata','pagetitle=VPTS extrapolation — model development and generalization')),
   quiet=TRUE,encoding='UTF-8')
 html <- paste(readLines('README.html',warn=FALSE,encoding='UTF-8'),collapse='\n')
 pattern <- '(<(?:div|nav) id="TOC"[^>]*>)([\\s\\S]*?)(</(?:div|nav)>)'
 stopifnot(grepl(pattern,html,perl=TRUE))
 html <- sub(pattern,'\\1\n<details open><summary>Table of contents</summary>\\2</details>\n\\3',html,perl=TRUE)
-html <- sub('(<body[^>]*>)', '\\1\n<a class="skip-link" href="#vpts-extrapolation-model-development-and-generalization">Skip to main content</a>\n<div class="main-container">', html, perl=TRUE)
-html <- sub('</body>', '</div>\n</body>', html, fixed=TRUE)
+# Bootstrap themes already supply the main container.
+stopifnot(lengths(regmatches(html, gregexpr('class="container-fluid main-container"', html, fixed=TRUE))) == 1)
+html <- sub('(<body[^>]*>)', '\\1\n<a class="skip-link" href="#vpts-extrapolation-model-development-and-generalization">Skip to main content</a>', html, perl=TRUE)
 writeLines(html,'README.html',useBytes=TRUE)
 cat('Rendered self-contained R Markdown HTML with three figures and a collapsible contents menu.\n')
