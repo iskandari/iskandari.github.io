@@ -1,0 +1,5 @@
+# Add only on Linux with an NVIDIA GPU and a CUDA 12-compatible driver.
+-r requirements.txt
+cuda-pathfinder==1.8.2
+cupy-cuda12x==14.2.0
+nvidia-nccl-cu12==2.32.3

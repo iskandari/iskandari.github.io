@@ -1,0 +1,17 @@
+{
+  "config/conus-paired-gpu.json": "77308020b2a0b953db62bb13b7b5566bf34f65cd4f24b669c8cca9a5affe9b8d",
+  "metadata/radarInfo.csv": "fea6d34b78a5852517d257d6cf8528bf0d423a49b41271f688139234995bd42b",
+  "training/prepare-conus-paired.py": "4da9dab9ce5c8b018b87cc22983c6775f4c8bf9c70eccc5f35da642a6fd43520",
+  "training/train-conus-paired.py": "3bf6b72b494c16279634b71eb491b80d8d3b51757cee97b7e7e897bd92e92ecf",
+  "scripts/conus-idle-watchdog.py": "4b5c50ccf93ffe6a745786c1e3aa98681a9ceb9e70529c50b723ab4b8a49e2be",
+  "scripts/run-conus-paired.sh": "298a0f2d2acee9077bdc48827f70332dc45f76f6385367ac5e950f415b2a875f",
+  "scripts/bootstrap-conus-paired.sh": "bc806d56361c1d8feb79e732e004709531bfd1cf17c5e7d915b095dd37611734",
+  "tests/test_conus_paired.py": "67da7d912666c9caaad56b3113c219e2ea4bdcc5b77da546a19bd6790635d506",
+  "metadata/preparation-source-checksums.json": "58be902f84907446da058636b04c0a5f5a4bd732d35c4961ee16ebfc0bddcd31",
+  "config/conus-k3-search.json": "1533ad579a30c3361807022020d769ee8dba7dc6bba40c6ac620f82b8c3158de",
+  "training/search-conus-k3.py": "3e35684423a632298cdc30cf4467a7a05ce9ad099af20c24b4483159000b4678",
+  "scripts/run-conus-k3-search.sh": "0aa6560933e66030e7de004b0506080073703317d096653d8b16704d368a14e1",
+  "tests/test_conus_k3_search.py": "279c2b93cc2593a13f8e842bbec7f4143f377b6677150334e83078fb740d1eb3",
+  "docs/conus-k3-search-2026-09-23.md": "2be9b7fbad0d6bf9ad352b23f331cc61d38258cbb2c7d8b28d78a52043bdd29b",
+  "metadata/tuning-source-checksums.json": "e9a0c22da15c4fe81567ef54569c5fba280f873d90b0b5f6e4ed04afcab522b6"
+}

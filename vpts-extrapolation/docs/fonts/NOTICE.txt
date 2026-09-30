@@ -1,0 +1,3 @@
+Open Sans. Source: rmarkdown/rmd/h/bootstrap/css/fonts.
+
+http://www.apache.org/licenses/LICENSE-2.0

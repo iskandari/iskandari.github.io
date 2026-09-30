@@ -1,0 +1,15 @@
+{
+  "run_id": "conus-crossed-cuberoot-20260929-01",
+  "parent_run": "conus-edges-k1to5-paired-20260923-04",
+  "test_year": 2025,
+  "seed": 20260929,
+  "holdout_fraction": 0.15,
+  "longitude_edges": [-126, -110, -100, -90, -80, -65],
+  "latitude_boundary": 37,
+  "nrounds": 10000,
+  "early_stopping_rounds": 300,
+  "params": {"max_depth": 10, "min_child_weight": 20, "lambda": 5},
+  "transform": "cuberoot",
+  "weight": "observed_vid",
+  "bootstrap_replicates": 2000
+}

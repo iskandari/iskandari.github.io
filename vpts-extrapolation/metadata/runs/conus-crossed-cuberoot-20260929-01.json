@@ -1,0 +1,224 @@
+{
+  "run_id": "conus-crossed-cuberoot-20260929-01",
+  "parent_run": "conus-edges-k1to5-paired-20260923-04",
+  "instance_id": "i-0588fbdd8cf661105",
+  "launched_utc": "2026-09-29T17:20:39.125603+00:00",
+  "status": "complete",
+  "s3_prefix": "s3://vpts-extrapolation-863683271215/training-runs/conus-crossed-cuberoot-20260929-01/",
+  "source_sha256": {
+    "config/conus-crossed.json": "bb52dba48e9f1e576238b6073d7a9a9532c63eeb44b009a0f912bb854fe68029",
+    "config/conus-paired-gpu.json": "77308020b2a0b953db62bb13b7b5566bf34f65cd4f24b669c8cca9a5affe9b8d",
+    "training/search-conus-k3.py": "3e35684423a632298cdc30cf4467a7a05ce9ad099af20c24b4483159000b4678",
+    "training/conus-crossed.py": "746ae81bfe03e7a7e941d22a0c9372e8fab6430b0eed726ebbfbfb9a65c8be3b",
+    "training/train-conus-paired.py": "3bf6b72b494c16279634b71eb491b80d8d3b51757cee97b7e7e897bd92e92ecf",
+    "metadata/radarInfo.csv": "fea6d34b78a5852517d257d6cf8528bf0d423a49b41271f688139234995bd42b",
+    "metadata/conus-crossed-sites.csv": "d624e3b3c011912c4769d82bcf855824e5402c62d212098d74720def1b95e3b3",
+    "scripts/run-conus-crossed.sh": "caf27da171ebdf22d38836c858fe9d36f5422df9278061d9a86b1e39250f786b",
+    "scripts/bootstrap-conus-paired.sh": "bc806d56361c1d8feb79e732e004709531bfd1cf17c5e7d915b095dd37611734",
+    "scripts/conus-idle-watchdog.py": "4b5c50ccf93ffe6a745786c1e3aa98681a9ceb9e70529c50b723ab4b8a49e2be",
+    "tests/test_conus_crossed.py": "fe104e244caba5fffe8b368ef3763ff216502552cf06206839b80b60d1e17441",
+    "docs/conus-crossed-2026-09-29.md": "d8195c2dc9bed3fe257f9ee6f1ddb652b8407e1543f7aaa2d331bd41948c78e9"
+  },
+  "launch": {
+    "ImageId": "ami-0ea4557cf06384769",
+    "InstanceType": "g5.8xlarge",
+    "MinCount": 1,
+    "MaxCount": 1,
+    "ClientToken": "conus-crossed-cuberoot-20260929-01-subnet-22a44b79",
+    "IamInstanceProfile": {
+      "Name": "VPTSExtrapolationGPUTraining"
+    },
+    "NetworkInterfaces": [
+      {
+        "DeviceIndex": 0,
+        "SubnetId": "subnet-22a44b79",
+        "Groups": [
+          "sg-2f98ff55"
+        ],
+        "AssociatePublicIpAddress": true,
+        "DeleteOnTermination": true
+      }
+    ],
+    "MetadataOptions": {
+      "HttpTokens": "required",
+      "HttpEndpoint": "enabled"
+    },
+    "InstanceInitiatedShutdownBehavior": "terminate",
+    "BlockDeviceMappings": [
+      {
+        "DeviceName": "/dev/sda1",
+        "Ebs": {
+          "VolumeSize": 500,
+          "VolumeType": "gp3",
+          "Encrypted": true,
+          "DeleteOnTermination": true
+        }
+      }
+    ],
+    "TagSpecifications": [
+      {
+        "ResourceType": "instance",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "conus-crossed-cuberoot-20260929-01"
+          },
+          {
+            "Key": "Project",
+            "Value": "VPTS-Extrapolation"
+          },
+          {
+            "Key": "RunId",
+            "Value": "conus-crossed-cuberoot-20260929-01"
+          },
+          {
+            "Key": "IdleTimeoutSeconds",
+            "Value": "10800"
+          }
+        ]
+      },
+      {
+        "ResourceType": "volume",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "conus-crossed-cuberoot-20260929-01"
+          },
+          {
+            "Key": "Project",
+            "Value": "VPTS-Extrapolation"
+          },
+          {
+            "Key": "RunId",
+            "Value": "conus-crossed-cuberoot-20260929-01"
+          },
+          {
+            "Key": "IdleTimeoutSeconds",
+            "Value": "10800"
+          }
+        ]
+      }
+    ]
+  },
+  "idle_alarm": {
+    "AlarmName": "conus-crossed-cuberoot-20260929-01-3h-idle",
+    "AlarmDescription": "Terminate after 180 real inactive one-minute workload samples. Missing pre-launch history is not idle. Host watchdog also shuts down after 10800 idle seconds.",
+    "ActionsEnabled": true,
+    "AlarmActions": [
+      "arn:aws:automate:us-east-1:ec2:terminate"
+    ],
+    "MetricName": "WorkActive",
+    "Namespace": "VPTS/Extrapolation",
+    "Statistic": "Maximum",
+    "Dimensions": [
+      {
+        "Name": "InstanceId",
+        "Value": "i-0588fbdd8cf661105"
+      }
+    ],
+    "Period": 60,
+    "Unit": "Count",
+    "EvaluationPeriods": 180,
+    "DatapointsToAlarm": 180,
+    "Threshold": 0.5,
+    "ComparisonOperator": "LessThanThreshold",
+    "TreatMissingData": "notBreaching"
+  },
+  "shutdown_verification": {
+    "cloudwatch_alarm_enabled": true,
+    "idle_seconds": 10800,
+    "period_seconds": 60,
+    "instance_initiated_shutdown_behavior": "terminate",
+    "runtime_guard_hours": 24,
+    "terminate_on_workload_exit": true
+  },
+  "held_out_sites": 21,
+  "candidate_sites": 141,
+  "requested_holdout_fraction": 0.15,
+  "validation": {
+    "conus_tests_passed": 11,
+    "end_to_end_cpu_smoke_passed": true
+  },
+  "status_verified_utc": "2026-09-29T17:53:39.644147+00:00",
+  "host_watchdog_verified": true,
+  "remote_smoke_tests_passed": 4,
+  "verified_iteration": 200,
+  "verified_train_rows": 29822840,
+  "verified_gpu_utilization": 89.0,
+  "rows_by_role": {
+    "train": 29822840,
+    "valid_stop": 1692390,
+    "valid_report": 1702383,
+    "test_temporal": 2881618,
+    "test_spatial": 6400798,
+    "test_spatiotemporal": 592939
+  },
+  "instance_state": "terminated",
+  "success_exit_code": 0,
+  "best_rounds": 3633,
+  "training_rounds": 3933,
+  "training_seconds": 474.950487613678,
+  "best_stop_k3_density_rmse": 62.672097,
+  "k3_density_results": [
+    {
+      "role": "valid_report",
+      "group": "k3",
+      "scale": "density",
+      "rows": 363537,
+      "r2": 0.747659581148225,
+      "rmse": 61.458119002583544,
+      "bias": -3.6079602940599513,
+      "underprediction_fraction": 0.5018801387479128,
+      "sites": 119,
+      "equal_site_rmse": 60.18225181342399,
+      "equal_site_bias": -3.4979997546321027,
+      "equal_site_rmse_ci_low": 55.3373065093812,
+      "equal_site_rmse_ci_high": 65.37285687780121
+    },
+    {
+      "role": "test_temporal",
+      "group": "k3",
+      "scale": "density",
+      "rows": 616206,
+      "r2": 0.7528102004737844,
+      "rmse": 62.0781217648518,
+      "bias": 1.3145800040541524,
+      "underprediction_fraction": 0.4416688574924619,
+      "sites": 118,
+      "equal_site_rmse": 61.114086661381435,
+      "equal_site_bias": 1.075947685441831,
+      "equal_site_rmse_ci_low": 56.463207776231584,
+      "equal_site_rmse_ci_high": 65.93868922406257
+    },
+    {
+      "role": "test_spatial",
+      "group": "k3",
+      "scale": "density",
+      "rows": 1372455,
+      "r2": 0.7201241988631788,
+      "rmse": 63.173193249661125,
+      "bias": -3.318928851722218,
+      "underprediction_fraction": 0.5055546447788817,
+      "sites": 21,
+      "equal_site_rmse": 60.8777358515755,
+      "equal_site_bias": -1.9074031159791756,
+      "equal_site_rmse_ci_low": 53.23349030064481,
+      "equal_site_rmse_ci_high": 68.01290771562836
+    },
+    {
+      "role": "test_spatiotemporal",
+      "group": "k3",
+      "scale": "density",
+      "rows": 126972,
+      "r2": 0.7459858193396562,
+      "rmse": 59.70084032508138,
+      "bias": 2.5204643407909932,
+      "underprediction_fraction": 0.449823583152191,
+      "sites": 21,
+      "equal_site_rmse": 57.04567779435105,
+      "equal_site_bias": 4.174746471194039,
+      "equal_site_rmse_ci_low": 49.73815435171267,
+      "equal_site_rmse_ci_high": 64.02374062487876
+    }
+  ]
+}

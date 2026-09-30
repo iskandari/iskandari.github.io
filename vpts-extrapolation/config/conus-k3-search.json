@@ -1,0 +1,18 @@
+{
+  "run_id": "conus-k3-search-20260923-01",
+  "parent_run": "conus-edges-k1to5-paired-20260923-04",
+  "nrounds": 10000,
+  "early_stopping_rounds": 300,
+  "selection_metric": "k3_density_rmse",
+  "transform": "cuberoot",
+  "trials": [
+    {"name": "depth6_vid", "weighted": true, "params": {"max_depth": 6}},
+    {"name": "depth6_unweighted", "weighted": false, "params": {"max_depth": 6}},
+    {"name": "depth8_vid", "weighted": true, "params": {"max_depth": 8}},
+    {"name": "depth8_unweighted", "weighted": false, "params": {"max_depth": 8}},
+    {"name": "depth10_vid", "weighted": true, "params": {"max_depth": 10}},
+    {"name": "depth10_unweighted", "weighted": false, "params": {"max_depth": 10}},
+    {"name": "depth8_vid_regularized", "weighted": true, "params": {"max_depth": 8, "min_child_weight": 20, "lambda": 5}},
+    {"name": "depth10_vid_regularized", "weighted": true, "params": {"max_depth": 10, "min_child_weight": 20, "lambda": 5}}
+  ]
+}

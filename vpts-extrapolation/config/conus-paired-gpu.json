@@ -1,0 +1,72 @@
+{
+  "run_id": "conus-edges-k1to5-paired-20260923-04",
+  "source_uri": "s3://vpts-extrapolation-863683271215/production/profile_sampled_archive_v1/",
+  "source_snapshot_id": "3748014820880754227",
+  "vpi_snapshot_id": "4310587873691587945",
+  "years": [
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "test_year": 2025,
+  "seed": 20260903,
+  "k_values": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "edges_per_k": 3,
+  "profile_top_m_asl": 3000,
+  "layer_thickness_m": 100,
+  "source_archive_vid_min": 6.6,
+  "upper_vid_min": 10.0,
+  "ground_tolerance_m": 1.0,
+  "ground_datum": "radarInfo.csv asl.min; minimum-terrain proxy",
+  "normalization": "density divided by observed upper VID; normalized slots sum to 10",
+  "weights": "upper VID, unchanged for both arms",
+  "variants": [
+    "cuberoot",
+    "linear"
+  ],
+  "nrounds": 5000,
+  "early_stopping_rounds": 150,
+  "params": {
+    "objective": "reg:squarederror",
+    "tree_method": "hist",
+    "device": "cuda",
+    "max_depth": 6,
+    "eta": 0.05,
+    "min_child_weight": 5,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "lambda": 1,
+    "alpha": 0,
+    "gamma": 0,
+    "max_bin": 256,
+    "base_score": 0.5,
+    "disable_default_eval_metric": 1,
+    "nthread": 32
+  },
+  "idle_timeout_seconds": 10800,
+  "hard_runtime_hours": 24,
+  "spring": [
+    "03-01",
+    "06-15"
+  ],
+  "fall": [
+    "08-01",
+    "11-15"
+  ]
+}
