@@ -80,7 +80,23 @@ Here, `asl.min` comes from `metadata/radarInfo.csv` and is the station's minimum
 
 **How stopping RMSE is calculated:** cube and clip the model prediction to recover normalized density, then multiply by that row's observed-upper VID to recover density in birds/km³. Compute `sqrt(mean((predicted_density − observed_density)²))` over all k=3 stopping-validation target rows. Every row has equal weight in this mean; there is **no additional VID weighting of the validation metric**. The “Training weights” column applies only to fitting. Thus every trial is compared using the same raw-density metric; these numbers are not RMSE of integrated VID.
 
-Shared settings: squared-error objective, `eta=0.05`, `subsample=0.8`, `colsample_bytree=0.8`, `max_bin=256`, `alpha=gamma=0`, `base_score=0.5`, seed 20260903. Python XGBoost **3.2.0**, GPU `hist`, 32 CPU threads.
+### Shared model settings
+
+**Learning rate = 0.05** (XGBoost `eta`), fixed throughout training for both transform-comparison models, all eight tuning trials, and the crossed site/year model. It was not tuned and no learning-rate decay schedule was used. This parameter scales each new tree's contribution to the prediction.
+
+| Setting | Value |
+|---|---|
+| **Learning rate (`eta`)** | **0.05, constant** |
+| Objective | Squared error (`reg:squarederror`) |
+| Row subsampling (`subsample`) | 0.8 |
+| Feature subsampling per tree (`colsample_bytree`) | 0.8 |
+| Histogram bins (`max_bin`) | 256 |
+| L1 penalty (`alpha`); minimum split loss (`gamma`) | 0; 0 |
+| Initial prediction (`base_score`) | 0.5 |
+| Training seed | 20260903 |
+| Implementation | Python XGBoost 3.2.0; GPU `hist`; 32 CPU threads |
+
+Depth, training weights, minimum child weight, and L2 penalty vary as listed in the tuning table. The crossed model uses the selected depth-10 configuration.
 
 VID weights prioritize higher-intensity training rows. `min_child_weight` limits low-support leaves; for squared error it measures summed row weights, not independent nights. `lambda` penalizes large leaf values. The stronger-regularization trials changed both parameters together.
 
@@ -141,11 +157,11 @@ A site may contribute no eligible examples to a particular cell or k. Therefore 
 
 ### Fitting and evaluation
 
-The previously selected configuration was fixed: cube-root normalized density slots and targets, observed-upper VID training weights, depth 10, min_child_weight 20, and lambda 5. All other preparation and model settings above were retained. Early stopping minimized unweighted k=3 raw-density RMSE on historical stopping nights at seen sites, with a 10,000-round ceiling and patience 300.
+The previously selected configuration was fixed: cube-root normalized density slots and targets, observed-upper VID training weights, **learning rate 0.05 (`eta`, constant)**, depth 10, min_child_weight 20, and lambda 5. All other preparation and model settings above were retained. Early stopping minimized unweighted k=3 raw-density RMSE on historical stopping nights at seen sites, with a 10,000-round ceiling and patience 300.
 
 The new model selected **3,633 rounds**, with stopping RMSE **62.6721 birds/km³**. Early stopping ended at 3,933 rounds. Fitting took **474.95 seconds (7.9 minutes)**, excluding data preparation, matrix construction, and reporting. The selected model and iteration were saved before test scoring. None of the test results below was used to adjust this model.
 
-![Figure 1. Two views of the same stopping-validation history. A: rounds 1–3,933 on an RMSE scale of 60–150 birds/km³. B: the same values from rounds 100–3,933, with the vertical scale expanded to 62.5–68 birds/km³ (the shaded band in A). The different vertical scales make later improvements look larger in B; these are not different models or metrics. RMSE is 147.94 at round 1, 67.48 at round 100, and 62.67 at the selected round 3,633 (dashed line). Both panels show unweighted k=3 raw-density RMSE on historical stopping nights at seen sites, not training loss or test error.](docs/figures/stopping-curve.png)
+![Figure 1. Two views of the same stopping-validation history, with a constant learning rate of 0.05 (`eta`). A: rounds 1–3,933 on an RMSE scale of 60–150 birds/km³. B: the same values from rounds 100–3,933, with the vertical scale expanded to 62.5–68 birds/km³ (the shaded band in A). The different vertical scales make later improvements look larger in B; these are not different models or metrics. RMSE is 147.94 at round 1, 67.48 at round 100, and 62.67 at the selected round 3,633 (dashed line). Both panels show unweighted k=3 raw-density RMSE on historical stopping nights at seen sites, not training loss or test error.](docs/figures/stopping-curve.png)
 
 ## Results of the crossed experiment
 
