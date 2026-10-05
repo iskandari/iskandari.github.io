@@ -1520,6 +1520,49 @@ upper quarter of that night’s higher-radar shared-band intensity, with
 both direction-matched scan comparisons available. Seed: 20261005.
 Random selection does not use agreement or model errors; examples may
 recur across sections.</p>
+<iframe title="Interactive 3D terrain and radar locations" loading="lazy" style="width:100%;height:560px;border:1px solid #d4dee5;border-radius:10px" allowfullscreen srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+&lt;link href=&quot;https://api.mapbox.com/mapbox-gl-js/v3.28.1/mapbox-gl.css&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;script src=&quot;https://api.mapbox.com/mapbox-gl-js/v3.28.1/mapbox-gl.js&quot;&gt;&lt;/script&gt;
+&lt;style&gt;
+body{margin:0;font:14px system-ui,sans-serif;color:#203442}#map{position:absolute;inset:0}
+.card{position:absolute;top:12px;left:12px;max-width:calc(100% - 88px);background:#fffffff2;padding:12px 15px;border-radius:8px;box-shadow:0 2px 12px #0002;z-index:1}
+.card strong{display:block;margin-bottom:5px}.legend{font-size:12px;line-height:1.7}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+button{background:white;border:1px solid #aebcc8;border-radius:5px;padding:5px 9px;margin-top:6px;color:#24516c;cursor:pointer}
+.label{font-weight:700;background:#fffffff0;border:2px solid;padding:4px 7px;border-radius:5px;box-shadow:0 1px 6px #0003;white-space:nowrap}
+#status{position:absolute;bottom:34px;left:12px;background:#fffffff0;padding:5px 9px;border-radius:4px;font-size:11px;max-width:80%}
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div id=&quot;map&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;card&quot;&gt;&lt;strong id=&quot;title&quot;&gt;&lt;/strong&gt;&lt;div class=&quot;legend&quot; id=&quot;legend&quot;&gt;&lt;/div&gt;&lt;button id=&quot;reset&quot;&gt;Show both radars · 45°&lt;/button&gt;&lt;/div&gt;
+&lt;div id=&quot;status&quot;&gt;Drag to pan · Ctrl-drag to tilt/rotate · Terrain at true scale&lt;/div&gt;
+&lt;script&gt;
+const stations=[{&quot;radar&quot;:&quot;KNKX&quot;,&quot;lat&quot;:32.9189,&quot;lon&quot;:-117.0419,&quot;height&quot;:291,&quot;antenna&quot;:321,&quot;asl.min&quot;:-1,&quot;asl.max&quot;:1101,&quot;asl.mean&quot;:231.0863,&quot;delta&quot;:322},{&quot;radar&quot;:&quot;KSOX&quot;,&quot;lat&quot;:33.8178,&quot;lon&quot;:-117.6358,&quot;height&quot;:923,&quot;antenna&quot;:946,&quot;asl.min&quot;:0,&quot;asl.max&quot;:1722,&quot;asl.mean&quot;:326.4955,&quot;delta&quot;:946}];
+const colors=[&#39;#0072B2&#39;,&#39;#D55E00&#39;];
+mapboxgl.accessToken=&quot;__MAPBOX_PUBLIC_TOKEN__&quot;;
+document.getElementById(&#39;title&#39;).textContent=stations.map(s=&gt;s.radar).join(&#39; → &#39;);
+document.getElementById(&#39;legend&#39;).innerHTML=stations.map((s,i)=&gt;`&lt;div&gt;&lt;span class=&quot;dot&quot; style=&quot;background:${colors[i]}&quot;&gt;&lt;/span&gt;&lt;b&gt;${s.radar}&lt;/b&gt; — antenna ${s.antenna} m ASL; terrain minimum ${s[&#39;asl.min&#39;]} m&lt;/div&gt;`).join(&#39;&#39;);
+const bounds=[[Math.min(...stations.map(s=&gt;s.lon)),Math.min(...stations.map(s=&gt;s.lat))],[Math.max(...stations.map(s=&gt;s.lon)),Math.max(...stations.map(s=&gt;s.lat))]];
+const fit={padding:{top:155,bottom:70,left:65,right:65},pitch:45,bearing:0,maxZoom:9,duration:0};
+const map=new mapboxgl.Map({container:&#39;map&#39;,style:&#39;mapbox://styles/mapbox/outdoors-v12&#39;,bounds,fitBoundsOptions:fit,pitch:45,bearing:0,antialias:true});
+map.scrollZoom.disable();
+map.addControl(new mapboxgl.NavigationControl({visualizePitch:true}),&#39;top-right&#39;);
+map.addControl(new mapboxgl.FullscreenControl(),&#39;top-right&#39;);
+map.addControl(new mapboxgl.ScaleControl({unit:&#39;metric&#39;}),&#39;bottom-right&#39;);
+document.getElementById(&#39;reset&#39;).onclick=()=&gt;map.fitBounds(bounds,{...fit,duration:600});
+map.on(&#39;style.load&#39;,()=&gt;{
+ map.addSource(&#39;terrain&#39;,{type:&#39;raster-dem&#39;,url:&#39;mapbox://mapbox.mapbox-terrain-dem-v1&#39;,tileSize:512,maxzoom:14});
+ map.setTerrain({source:&#39;terrain&#39;,exaggeration:1});
+ map.addSource(&#39;pair-axis&#39;,{type:&#39;geojson&#39;,data:{type:&#39;Feature&#39;,properties:{},geometry:{type:&#39;LineString&#39;,coordinates:stations.map(s=&gt;[s.lon,s.lat])}}});
+ map.addLayer({id:&#39;pair-axis&#39;,type:&#39;line&#39;,source:&#39;pair-axis&#39;,paint:{&#39;line-color&#39;:&#39;#405d73&#39;,&#39;line-width&#39;:2,&#39;line-dasharray&#39;:[3,3],&#39;line-opacity&#39;:0.7}});
+});
+for(const [i,s] of stations.entries()){
+ const label=document.createElement(&#39;div&#39;);label.className=&#39;label&#39;;label.style.color=colors[i];label.textContent=s.radar;
+ const detail=`&lt;b&gt;${s.radar}&lt;/b&gt;&lt;br&gt;${s.lat.toFixed(3)}°, ${s.lon.toFixed(3)}°&lt;br&gt;Antenna: ${s.antenna} m ASL&lt;br&gt;Minimum terrain proxy: ${s[&#39;asl.min&#39;]} m ASL`;
+ new mapboxgl.Marker({color:colors[i]}).setLngLat([s.lon,s.lat]).setPopup(new mapboxgl.Popup({offset:25}).setHTML(detail)).addTo(map);
+ new mapboxgl.Marker({element:label,anchor:&#39;bottom&#39;,offset:[0,-43]}).setLngLat([s.lon,s.lat]).addTo(map);
+}
+map.on(&#39;error&#39;,e=&gt;{if(e.error &amp;&amp; /401|403|token/i.test(e.error.message||&#39;&#39;))document.getElementById(&#39;status&#39;).textContent=&#39;Map access unavailable. Check the Mapbox token or network connection.&#39;;});
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;">
+</iframe>
 <div id="upper-matched-examples" class="section level1">
 <h1>Upper-matched examples</h1>
 <div id="spring" class="section level2">
