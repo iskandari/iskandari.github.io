@@ -14,12 +14,14 @@ if output.exists():
     raise SystemExit('_site already exists; use a clean checkout.')
 shutil.copytree(root, output, ignore=shutil.ignore_patterns('.git', '.github', '_site'))
 reports = output / 'vpts-extrapolation/analysis/radar-pairs'
+expected = {p.name for p in reports.glob('*-examples.html')}
+expected |= {name.replace('-examples.html', '-full-report.html') for name in list(expected)}
 count = 0
 for path in reports.glob('*.html'):
     html = path.read_text()
     if '__MAPBOX_PUBLIC_TOKEN__' in html:
         path.write_text(html.replace('__MAPBOX_PUBLIC_TOKEN__', token))
         count += 1
-if count != 6:
-    raise SystemExit(f'Expected six embedded map reports, found {count}.')
-print('Prepared six map reports and the remaining static site.')
+if not expected or count != len(expected):
+    raise SystemExit(f'Expected {len(expected)} embedded map reports, found {count}.')
+print(f'Prepared {count} map reports and the remaining static site.')
