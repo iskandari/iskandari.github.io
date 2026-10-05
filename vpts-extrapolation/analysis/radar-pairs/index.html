@@ -10,21 +10,23 @@ button[aria-selected="true"]{background:#24516c;color:white;border-color:#24516c
 button:focus-visible,a:focus-visible{outline:3px solid #e69f00;outline-offset:3px}
 .mode{margin-left:auto;font-size:14px;color:#24516c}iframe{display:block;border:0;width:100%;height:calc(100vh - 66px);height:calc(100dvh - 66px)}
 [hidden]{display:none!important}
-@media(max-width:800px){header{height:106px;flex-wrap:wrap;gap:4px;padding:8px}nav{max-width:100%;overflow-x:auto;white-space:nowrap}.mode{margin-left:8px}button{padding:9px 12px}iframe{height:calc(100vh - 106px);height:calc(100dvh - 106px)}}
+@media(max-width:1100px){header{height:106px;flex-wrap:wrap;gap:4px;padding:8px}nav{max-width:100%;overflow-x:auto;white-space:nowrap}.mode{margin-left:8px}button{padding:9px 12px}iframe{height:calc(100vh - 106px);height:calc(100dvh - 106px)}}
 </style></head>
 <body><header>
-<nav role="tablist" aria-label="Radar pair">
+<nav role="tablist" aria-label="Radar comparison section">
+<button id="tab-upper-agreement" role="tab" aria-selected="false" aria-controls="panel-upper-agreement" data-pair="upper-agreement">Upper agreement</button>
 <button id="tab-knkx-ksox" role="tab" aria-selected="false" aria-controls="panel-knkx-ksox" data-pair="knkx-ksox">KNKX → KSOX</button>
 <button id="tab-kdax-kmux" role="tab" aria-selected="false" aria-controls="panel-kdax-kmux" data-pair="kdax-kmux">KDAX → KMUX</button>
 <button id="tab-klgx-krtx" role="tab" aria-selected="false" aria-controls="panel-klgx-krtx" data-pair="klgx-krtx">KLGX → KRTX</button>
 </nav><a class="mode" id="view-link" href="full-report.html">All nights and methods</a>
 </header>
 <main>
+<section id="panel-upper-agreement" role="tabpanel" aria-labelledby="tab-upper-agreement" hidden><iframe title="Upper-profile agreement across radar pairs" data-src="upper-agreement.html"></iframe></section>
 <section id="panel-knkx-ksox" role="tabpanel" aria-labelledby="tab-knkx-ksox" hidden><iframe title="KNKX–KSOX Examples" data-src="knkx-ksox-examples.html"></iframe></section>
 <section id="panel-kdax-kmux" role="tabpanel" aria-labelledby="tab-kdax-kmux" hidden><iframe title="KDAX–KMUX Examples" data-src="kdax-kmux-examples.html"></iframe></section>
 <section id="panel-klgx-krtx" role="tabpanel" aria-labelledby="tab-klgx-krtx" hidden><iframe title="KLGX–KRTX Examples" data-src="klgx-krtx-examples.html"></iframe></section>
 </main>
-<noscript><p><a href="knkx-ksox-examples.html">KNKX–KSOX</a> · <a href="kdax-kmux-examples.html">KDAX–KMUX</a> · <a href="klgx-krtx-examples.html">KLGX–KRTX</a></p></noscript>
+<noscript><p><a href="upper-agreement.html">Upper agreement</a> · <a href="knkx-ksox-examples.html">KNKX–KSOX</a> · <a href="kdax-kmux-examples.html">KDAX–KMUX</a> · <a href="klgx-krtx-examples.html">KLGX–KRTX</a></p></noscript>
 <script>
 const buttons=Array.from(document.querySelectorAll('[role="tab"]'));
 function selectPair(pair,focus=false){
