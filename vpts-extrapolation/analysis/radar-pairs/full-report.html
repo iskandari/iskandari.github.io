@@ -3,44 +3,34 @@
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Radar profile comparisons — Full report</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;color:#263238;background:white}
-header{height:66px;display:flex;align-items:center;gap:20px;padding:8px 20px;border-bottom:1px solid #d5dde3;background:#f8fafb}
-nav{display:flex;gap:8px}button{font:inherit;font-weight:600;font-size:16px;padding:10px 18px;border:1px solid #aebcc8;border-radius:6px;background:white;color:#24516c;cursor:pointer}
-button[aria-selected="true"]{background:#24516c;color:white;border-color:#24516c}
-button:focus-visible,a:focus-visible{outline:3px solid #e69f00;outline-offset:3px}
-.mode{margin-left:auto;font-size:14px;color:#24516c}iframe{display:block;border:0;width:100%;height:calc(100vh - 66px);height:calc(100dvh - 66px)}
-[hidden]{display:none!important}
-@media(max-width:1100px){header{height:106px;flex-wrap:wrap;gap:4px;padding:8px}nav{max-width:100%;overflow-x:auto;white-space:nowrap}.mode{margin-left:8px}button{padding:9px 12px}iframe{height:calc(100vh - 106px);height:calc(100dvh - 106px)}}
+*{box-sizing:border-box}body{margin:0;height:100vh;height:100dvh;display:flex;flex-direction:column;font-family:system-ui,sans-serif;color:#263238;background:white}
+header{flex:none;padding:12px 24px;background:#f8fafb;border-bottom:1px solid #d5dde3}header h1{font-size:17px;margin:0 0 8px}nav{max-width:920px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;background:white;border:1px solid #d5dde3}th,td{padding:6px 12px;border-bottom:1px solid #e1e7eb;text-align:left}thead th{background:#edf2f6;font-size:12px;color:#506573}tbody th{font-weight:600}
+button,a{font:inherit;color:#24516c}button{border:0;border-radius:4px;padding:4px 9px;background:#edf3f7;cursor:pointer}button[aria-pressed="true"]{background:#24516c;color:white}a{padding:4px 0;text-underline-offset:3px}
+button:focus-visible,a:focus-visible{outline:3px solid #e69f00;outline-offset:3px}main{flex:1;min-height:0}section{height:100%}iframe{display:block;border:0;width:100%;height:100%}[hidden]{display:none!important}
+@media(max-width:600px){header{padding:8px}th,td{padding:5px 7px}table{font-size:12px}button{padding:4px 6px}}
 </style></head>
-<body><header>
-<nav role="tablist" aria-label="Radar comparison section">
-<button id="tab-upper-agreement" role="tab" aria-selected="false" aria-controls="panel-upper-agreement" data-pair="upper-agreement">Upper agreement</button>
-<button id="tab-knkx-ksox" role="tab" aria-selected="false" aria-controls="panel-knkx-ksox" data-pair="knkx-ksox">KNKX → KSOX</button>
-<button id="tab-kdax-kmux" role="tab" aria-selected="false" aria-controls="panel-kdax-kmux" data-pair="kdax-kmux">KDAX → KMUX</button>
-<button id="tab-klgx-krtx" role="tab" aria-selected="false" aria-controls="panel-klgx-krtx" data-pair="klgx-krtx">KLGX → KRTX</button>
-</nav><a class="mode" id="view-link" href="index.html">Selected examples</a>
+<body><header><h1>Radar profile comparisons</h1>
+<nav aria-label="Radar comparison navigation"><table>
+<thead><tr><th scope="col">Comparison</th><th scope="col">Selected examples</th><th scope="col">Full report</th></tr></thead>
+<tbody><tr><th scope="row">Upper agreement · 13 pairs</th><td colspan="2"><button id="tab-upper-agreement" aria-pressed="false" aria-controls="panel-upper-agreement" data-pair="upper-agreement">Comparison table and methods</button></td></tr><tr><th scope="row">KNKX → KSOX</th><td><a href="index.html#knkx-ksox">View examples</a></td><td><button id="tab-knkx-ksox" aria-pressed="false" aria-controls="panel-knkx-ksox" data-pair="knkx-ksox">View full report</button></td></tr><tr><th scope="row">KDAX → KMUX</th><td><a href="index.html#kdax-kmux">View examples</a></td><td><button id="tab-kdax-kmux" aria-pressed="false" aria-controls="panel-kdax-kmux" data-pair="kdax-kmux">View full report</button></td></tr><tr><th scope="row">KLGX → KRTX</th><td><a href="index.html#klgx-krtx">View examples</a></td><td><button id="tab-klgx-krtx" aria-pressed="false" aria-controls="panel-klgx-krtx" data-pair="klgx-krtx">View full report</button></td></tr></tbody></table></nav>
 </header>
 <main>
-<section id="panel-upper-agreement" role="tabpanel" aria-labelledby="tab-upper-agreement" hidden><iframe title="Upper-profile agreement across radar pairs" data-src="upper-agreement.html"></iframe></section>
-<section id="panel-knkx-ksox" role="tabpanel" aria-labelledby="tab-knkx-ksox" hidden><iframe title="KNKX–KSOX Full report" data-src="knkx-ksox-full-report.html"></iframe></section>
-<section id="panel-kdax-kmux" role="tabpanel" aria-labelledby="tab-kdax-kmux" hidden><iframe title="KDAX–KMUX Full report" data-src="kdax-kmux-full-report.html"></iframe></section>
-<section id="panel-klgx-krtx" role="tabpanel" aria-labelledby="tab-klgx-krtx" hidden><iframe title="KLGX–KRTX Full report" data-src="klgx-krtx-full-report.html"></iframe></section>
+<section id="panel-upper-agreement" role="region" aria-labelledby="tab-upper-agreement" hidden><iframe title="Upper-profile agreement across radar pairs" data-src="upper-agreement.html"></iframe></section>
+<section id="panel-knkx-ksox" role="region" aria-labelledby="tab-knkx-ksox" hidden><iframe title="KNKX–KSOX Full report" data-src="knkx-ksox-full-report.html"></iframe></section>
+<section id="panel-kdax-kmux" role="region" aria-labelledby="tab-kdax-kmux" hidden><iframe title="KDAX–KMUX Full report" data-src="kdax-kmux-full-report.html"></iframe></section>
+<section id="panel-klgx-krtx" role="region" aria-labelledby="tab-klgx-krtx" hidden><iframe title="KLGX–KRTX Full report" data-src="klgx-krtx-full-report.html"></iframe></section>
 </main>
 <noscript><p><a href="upper-agreement.html">Upper agreement</a> · <a href="knkx-ksox-full-report.html">KNKX–KSOX</a> · <a href="kdax-kmux-full-report.html">KDAX–KMUX</a> · <a href="klgx-krtx-full-report.html">KLGX–KRTX</a></p></noscript>
 <script>
-const buttons=Array.from(document.querySelectorAll('[role="tab"]'));
+const buttons=Array.from(document.querySelectorAll('button[data-pair]'));
 function selectPair(pair,focus=false){
  if(!buttons.some(b=>b.dataset.pair===pair))pair='knkx-ksox';
- for(const b of buttons){const active=b.dataset.pair===pair;b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1;
+ for(const b of buttons){const active=b.dataset.pair===pair;b.setAttribute('aria-pressed',String(active));
  const panel=document.getElementById(b.getAttribute('aria-controls'));panel.hidden=!active;
  if(active){const frame=panel.querySelector('iframe');if(!frame.hasAttribute('src'))frame.src=frame.dataset.src;if(focus)b.focus();}}
- document.getElementById('view-link').href='index.html#'+pair;
 }
 for(const b of buttons)b.addEventListener('click',()=>{location.hash=b.dataset.pair;selectPair(b.dataset.pair);});
-document.querySelector('[role="tablist"]').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();
- let i=buttons.findIndex(b=>b.getAttribute('aria-selected')==='true');
- i=e.key==='Home'?0:e.key==='End'?buttons.length-1:(i+(e.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;
- location.hash=buttons[i].dataset.pair;selectPair(buttons[i].dataset.pair,true);});
 window.addEventListener('hashchange',()=>selectPair(location.hash.slice(1)));
 selectPair(location.hash.slice(1));
 </script></body></html>
