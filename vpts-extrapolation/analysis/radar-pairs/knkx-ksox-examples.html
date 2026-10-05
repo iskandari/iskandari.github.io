@@ -1533,34 +1533,40 @@ button{background:white;border:1px solid #aebcc8;border-radius:5px;padding:5px 9
 #status{position:absolute;bottom:34px;left:12px;background:#fffffff0;padding:5px 9px;border-radius:4px;font-size:11px;max-width:80%}
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div id=&quot;map&quot;&gt;&lt;/div&gt;
 &lt;div class=&quot;card&quot;&gt;&lt;strong id=&quot;title&quot;&gt;&lt;/strong&gt;&lt;div class=&quot;legend&quot; id=&quot;legend&quot;&gt;&lt;/div&gt;&lt;button id=&quot;reset&quot;&gt;Show both radars · 45°&lt;/button&gt;&lt;/div&gt;
-&lt;div id=&quot;status&quot;&gt;Drag to pan · Ctrl-drag to tilt/rotate · Terrain at true scale&lt;/div&gt;
+&lt;div id=&quot;status&quot;&gt;Drag to pan · Ctrl-drag to tilt/rotate · Terrain exaggerated 10×; elevations shown are true ASL&lt;/div&gt;
 &lt;script&gt;
 const stations=[{&quot;radar&quot;:&quot;KNKX&quot;,&quot;lat&quot;:32.9189,&quot;lon&quot;:-117.0419,&quot;height&quot;:291,&quot;antenna&quot;:321,&quot;asl.min&quot;:-1,&quot;asl.max&quot;:1101,&quot;asl.mean&quot;:231.0863,&quot;delta&quot;:322},{&quot;radar&quot;:&quot;KSOX&quot;,&quot;lat&quot;:33.8178,&quot;lon&quot;:-117.6358,&quot;height&quot;:923,&quot;antenna&quot;:946,&quot;asl.min&quot;:0,&quot;asl.max&quot;:1722,&quot;asl.mean&quot;:326.4955,&quot;delta&quot;:946}];
-const colors=[&#39;#0072B2&#39;,&#39;#D55E00&#39;];
+const colors=[&#x27;#0072B2&#x27;,&#x27;#D55E00&#x27;];
 mapboxgl.accessToken=&quot;__MAPBOX_PUBLIC_TOKEN__&quot;;
-document.getElementById(&#39;title&#39;).textContent=stations.map(s=&gt;s.radar).join(&#39; → &#39;);
-document.getElementById(&#39;legend&#39;).innerHTML=stations.map((s,i)=&gt;`&lt;div&gt;&lt;span class=&quot;dot&quot; style=&quot;background:${colors[i]}&quot;&gt;&lt;/span&gt;&lt;b&gt;${s.radar}&lt;/b&gt; — antenna ${s.antenna} m ASL; terrain minimum ${s[&#39;asl.min&#39;]} m&lt;/div&gt;`).join(&#39;&#39;);
+document.getElementById(&#x27;title&#x27;).textContent=stations.map(s=&gt;s.radar).join(&#x27; → &#x27;);
+document.getElementById(&#x27;legend&#x27;).innerHTML=stations.map((s,i)=&gt;`&lt;div&gt;&lt;span class=&quot;dot&quot; style=&quot;background:${colors[i]}&quot;&gt;&lt;/span&gt;&lt;b&gt;${s.radar}&lt;/b&gt; — antenna ${s.antenna} m ASL; terrain minimum ${s[&#x27;asl.min&#x27;]} m&lt;/div&gt;`).join(&#x27;&#x27;);
 const bounds=[[Math.min(...stations.map(s=&gt;s.lon)),Math.min(...stations.map(s=&gt;s.lat))],[Math.max(...stations.map(s=&gt;s.lon)),Math.max(...stations.map(s=&gt;s.lat))]];
 const fit={padding:{top:155,bottom:70,left:65,right:65},pitch:45,bearing:0,maxZoom:9,duration:0};
-const map=new mapboxgl.Map({container:&#39;map&#39;,style:&#39;mapbox://styles/mapbox/outdoors-v12&#39;,bounds,fitBoundsOptions:fit,pitch:45,bearing:0,antialias:true});
+const map=new mapboxgl.Map({container:&#x27;map&#x27;,style:&#x27;mapbox://styles/mapbox/light-v11&#x27;,bounds,fitBoundsOptions:fit,pitch:45,bearing:0,antialias:true});
 map.scrollZoom.disable();
-map.addControl(new mapboxgl.NavigationControl({visualizePitch:true}),&#39;top-right&#39;);
-map.addControl(new mapboxgl.FullscreenControl(),&#39;top-right&#39;);
-map.addControl(new mapboxgl.ScaleControl({unit:&#39;metric&#39;}),&#39;bottom-right&#39;);
-document.getElementById(&#39;reset&#39;).onclick=()=&gt;map.fitBounds(bounds,{...fit,duration:600});
-map.on(&#39;style.load&#39;,()=&gt;{
- map.addSource(&#39;terrain&#39;,{type:&#39;raster-dem&#39;,url:&#39;mapbox://mapbox.mapbox-terrain-dem-v1&#39;,tileSize:512,maxzoom:14});
- map.setTerrain({source:&#39;terrain&#39;,exaggeration:1});
- map.addSource(&#39;pair-axis&#39;,{type:&#39;geojson&#39;,data:{type:&#39;Feature&#39;,properties:{},geometry:{type:&#39;LineString&#39;,coordinates:stations.map(s=&gt;[s.lon,s.lat])}}});
- map.addLayer({id:&#39;pair-axis&#39;,type:&#39;line&#39;,source:&#39;pair-axis&#39;,paint:{&#39;line-color&#39;:&#39;#405d73&#39;,&#39;line-width&#39;:2,&#39;line-dasharray&#39;:[3,3],&#39;line-opacity&#39;:0.7}});
+map.addControl(new mapboxgl.NavigationControl({visualizePitch:true}),&#x27;top-right&#x27;);
+map.addControl(new mapboxgl.FullscreenControl(),&#x27;top-right&#x27;);
+map.addControl(new mapboxgl.ScaleControl({unit:&#x27;metric&#x27;}),&#x27;bottom-right&#x27;);
+document.getElementById(&#x27;reset&#x27;).onclick=()=&gt;map.fitBounds(bounds,{...fit,duration:600});
+map.on(&#x27;style.load&#x27;,()=&gt;{
+ map.addSource(&#x27;terrain&#x27;,{type:&#x27;raster-dem&#x27;,url:&#x27;mapbox://mapbox.mapbox-terrain-dem-v1&#x27;,tileSize:512,maxzoom:14});
+ const firstSymbolLayerId=map.getStyle().layers.find(layer=&gt;layer.type===&#x27;symbol&#x27;)?.id;
+ map.addLayer({id:&#x27;color-hillshade&#x27;,type:&#x27;hillshade&#x27;,source:&#x27;terrain&#x27;,paint:{
+  &#x27;hillshade-exaggeration&#x27;:0.75,&#x27;hillshade-illumination-direction&#x27;:315,
+  &#x27;hillshade-illumination-anchor&#x27;:&#x27;map&#x27;,&#x27;hillshade-shadow-color&#x27;:&#x27;#4A4E9B&#x27;,
+  &#x27;hillshade-highlight-color&#x27;:&#x27;#FFE7A3&#x27;,&#x27;hillshade-accent-color&#x27;:&#x27;#C44569&#x27;
+ }},firstSymbolLayerId);
+ map.setTerrain({source:&#x27;terrain&#x27;,exaggeration:10});
+ map.addSource(&#x27;pair-axis&#x27;,{type:&#x27;geojson&#x27;,data:{type:&#x27;Feature&#x27;,properties:{},geometry:{type:&#x27;LineString&#x27;,coordinates:stations.map(s=&gt;[s.lon,s.lat])}}});
+ map.addLayer({id:&#x27;pair-axis&#x27;,type:&#x27;line&#x27;,source:&#x27;pair-axis&#x27;,paint:{&#x27;line-color&#x27;:&#x27;#405d73&#x27;,&#x27;line-width&#x27;:2,&#x27;line-dasharray&#x27;:[3,3],&#x27;line-opacity&#x27;:0.7}});
 });
 for(const [i,s] of stations.entries()){
- const label=document.createElement(&#39;div&#39;);label.className=&#39;label&#39;;label.style.color=colors[i];label.textContent=s.radar;
- const detail=`&lt;b&gt;${s.radar}&lt;/b&gt;&lt;br&gt;${s.lat.toFixed(3)}°, ${s.lon.toFixed(3)}°&lt;br&gt;Antenna: ${s.antenna} m ASL&lt;br&gt;Minimum terrain proxy: ${s[&#39;asl.min&#39;]} m ASL`;
+ const label=document.createElement(&#x27;div&#x27;);label.className=&#x27;label&#x27;;label.style.color=colors[i];label.textContent=s.radar;
+ const detail=`&lt;b&gt;${s.radar}&lt;/b&gt;&lt;br&gt;${s.lat.toFixed(3)}°, ${s.lon.toFixed(3)}°&lt;br&gt;Antenna: ${s.antenna} m ASL&lt;br&gt;Minimum terrain proxy: ${s[&#x27;asl.min&#x27;]} m ASL`;
  new mapboxgl.Marker({color:colors[i]}).setLngLat([s.lon,s.lat]).setPopup(new mapboxgl.Popup({offset:25}).setHTML(detail)).addTo(map);
- new mapboxgl.Marker({element:label,anchor:&#39;bottom&#39;,offset:[0,-43]}).setLngLat([s.lon,s.lat]).addTo(map);
+ new mapboxgl.Marker({element:label,anchor:&#x27;bottom&#x27;,offset:[0,-43]}).setLngLat([s.lon,s.lat]).addTo(map);
 }
-map.on(&#39;error&#39;,e=&gt;{if(e.error &amp;&amp; /401|403|token/i.test(e.error.message||&#39;&#39;))document.getElementById(&#39;status&#39;).textContent=&#39;Map access unavailable. Check the Mapbox token or network connection.&#39;;});
+map.on(&#x27;error&#x27;,e=&gt;{if(e.error &amp;&amp; /401|403|token/i.test(e.error.message||&#x27;&#x27;))document.getElementById(&#x27;status&#x27;).textContent=&#x27;Map access unavailable. Check the Mapbox token or network connection.&#x27;;});
 &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;">
 </iframe>
 <div id="upper-matched-examples" class="section level1">
