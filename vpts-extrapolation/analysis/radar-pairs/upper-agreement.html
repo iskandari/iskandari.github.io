@@ -765,12 +765,34 @@ means equal intensity. <strong>Shape:</strong> normalize each profile’s
 eleven densities to sum to 1, then take half the sum of absolute binwise
 differences. This distance is 0 for identical shapes and 1 for no
 overlap, regardless of total bird amount.</p>
+<div id="shape-distance-statistic" class="section level3">
+<h3>Shape-distance statistic</h3>
+<p>For snapshot <span class="math inline">\(s\)</span>, normalize each
+radar’s densities across the eleven shared bins:</p>
+<p><span class="math display">\[
+p_{si}=\frac{x_{si}}{\sum_{j=1}^{11}x_{sj}},\qquad
+q_{si}=\frac{y_{si}}{\sum_{j=1}^{11}y_{sj}}.
+\]</span></p>
+<p>Compute total-variation distance per snapshot, then its sample
+median:</p>
+<p><span class="math display">\[
+d_s=\frac12\sum_{i=1}^{11}|p_{si}-q_{si}|,\qquad
+D=\operatorname{median}_{s=1,\ldots,N}(d_s).
+\]</span></p>
+<p><span class="math inline">\(d_s\in[0,1]\)</span>: <strong>0 =
+identical proportional profiles; 1 = disjoint profiles.</strong> The
+statistic is invariant to multiplying either profile by a positive
+constant. <span class="math inline">\(D\)</span> weights snapshots
+equally; the joint-agreement percentage weights nights equally.
+Zero-total profiles have undefined <span class="math inline">\(d_s\)</span>: excluded from <span class="math inline">\(D\)</span>, counted as failures for joint
+agreement.</p>
 <p><strong>Agreement</strong> requires both a VID ratio of
 <strong>0.5–2</strong> and shape distance <strong>≤0.25</strong>. These
 are exploratory tolerances, not validated equivalence limits. The
 percentage averages the within-tolerance fraction for each night, giving
 nights equal weight. Medians summarize snapshots; intervals use 500
 whole-night bootstrap resamples (seed 20261005).</p>
+</div>
 </div>
 <div id="how-we-compared-them" class="section level2">
 <h2>How we compared them</h2>
