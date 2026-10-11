@@ -374,33 +374,104 @@ used by the profile tabs. Both training VID thresholds are 6.6.</p>
 slots + nine height, time, location and upper-VID inputs. Slots start at
 the observed edge; hidden lower layers are excluded. Only density slots
 are normalized and cube-root transformed. Velocities remain in m/s.</p>
-<div id="training-gain" class="section level2">
-<h2>Training gain</h2>
-<p><img src="https://icebird-viz.s3.amazonaws.com/vpts-extrapolation/radar-pairs/conus-depth1to10-upperuv-20261009-01/figures/f686a32151c01cc024210be279ff1a641675e5d21b6e9737192a918668f88f6f.png" width="1650" /></p>
-<p>Total gain sums improvements in the training objective attributed to
-splits on a feature. It is neither explained variance nor the
-improvement that removing a feature would cause. Correlated features can
-substitute for each other. The <strong>Model performance</strong> tab
-provides the paired retraining comparison with and without u/v.</p>
-</div>
-<div id="contributions-to-held-out-predictions" class="section level2">
-<h2>Contributions to held-out predictions</h2>
-<p><img src="https://icebird-viz.s3.amazonaws.com/vpts-extrapolation/radar-pairs/conus-depth1to10-upperuv-20261009-01/figures/5218e787f2b6a93ebbf12d148b98c90d48ff903e8cd14a9012abf99ec8e80747.png" width="1650" /></p>
-<p>Exact TreeSHAP on <strong>21 profiles / 105 rows</strong>: one fixed
-profile per held-out radar from the existing random 2025 gallery, with
-five target depths each. Selection does not use prediction errors. These
-profiles illustrate behavior; this small sample does not estimate
-population importance or causal biological effects.</p>
-<p>Values are contributions to <strong>cube-root normalized
-density</strong>, not birds/km³. Contributions plus the baseline
-reproduce that model output; maximum reconstruction error: 2.1e-05. To
-recover density, sum contributions first, cube and clip, then multiply
-by upper VID. Individual SHAP values cannot be cubed separately.</p>
-<p><img src="https://icebird-viz.s3.amazonaws.com/vpts-extrapolation/radar-pairs/conus-depth1to10-upperuv-20261009-01/figures/ed14a363ee9594f40b584514912575ef3f5f74428a98e1cf79d497e2582c604e.png" width="1650" /></p>
-<p>Group totals sum absolute contributions, so they depend on group size
-and correlated inputs; the feature count is shown in parentheses.
-Velocity availability may carry measurement-quality cues as well as
+<div id="all-input-groups" class="section level2">
+<h2>All input groups</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Input group</th>
+<th align="right">Columns</th>
+<th align="left">Representation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Density slots</td>
+<td align="right">29</td>
+<td align="left">Density / upper VID, then cube root</td>
+</tr>
+<tr class="even">
+<td align="left">u slots</td>
+<td align="right">29</td>
+<td align="left">Raw eastward velocity (m/s)</td>
+</tr>
+<tr class="odd">
+<td align="left">v slots</td>
+<td align="right">29</td>
+<td align="left">Raw northward velocity (m/s)</td>
+</tr>
+<tr class="even">
+<td align="left">Observed-upper VID</td>
+<td align="right">1</td>
+<td align="left">Raw observed-upper integral (birds/km²)</td>
+</tr>
+<tr class="odd">
+<td align="left">Target AGL</td>
+<td align="right">1</td>
+<td align="left">Target height minus asl.min (m)</td>
+</tr>
+<tr class="even">
+<td align="left">Prediction depth</td>
+<td align="right">1</td>
+<td align="left">Distance below lowest observed bin (m)</td>
+</tr>
+<tr class="odd">
+<td align="left">Latitude</td>
+<td align="right">1</td>
+<td align="left">Degrees</td>
+</tr>
+<tr class="even">
+<td align="left">Longitude</td>
+<td align="right">1</td>
+<td align="left">Degrees</td>
+</tr>
+<tr class="odd">
+<td align="left">Night phase</td>
+<td align="right">2</td>
+<td align="left">Sine and cosine</td>
+</tr>
+<tr class="even">
+<td align="left">Day of year</td>
+<td align="right">2</td>
+<td align="left">Sine and cosine</td>
+</tr>
+</tbody>
+</table>
+<p><strong>VID distinction:</strong> whole-profile VID is an archive
+eligibility filter, not a separate predictor. Observed-upper VID is the
+intensity predictor; it also supplies normalization, fitting weights and
+rescaling. No hidden-layer VID, density, u or v enters the inputs.
+<strong>w (vertical velocity) is not included.</strong></p>
+<p><img src="https://icebird-viz.s3.amazonaws.com/vpts-extrapolation/radar-pairs/conus-depth1to10-upperuv-20261009-01/feature-groups-20261011/bf507188b517a5f8698eea35fb1ccbb9529859eb70335fa71262c0729f35be69.png" width="1650" /></p>
+<p>Each bar includes <strong>every column in that group</strong>, not
+just the top-ranked slots. Parentheses show column counts; all 96 inputs
+are represented. Training gain sums improvements in the fitting
+objective. It is neither explained variance nor the improvement that
+removing a group would cause; correlated inputs can substitute for one
+another.</p>
+<p><img src="https://icebird-viz.s3.amazonaws.com/vpts-extrapolation/radar-pairs/conus-depth1to10-upperuv-20261009-01/feature-groups-20261011/b3057ef96d437647b5b0903399f28f4486941f1fdace45eca9c75232ba0a04f9.png" width="1650" /></p>
+<p>Grouped SHAP is the <strong>sum of mean absolute contributions of the
+member columns</strong>, in cube-root normalized-density units. It
+depends on group size and correlation; it is not a group-removal
+experiment. The <strong>Model performance</strong> tab provides the
+paired retraining comparison with and without u/v.</p>
+<p>Exact TreeSHAP uses <strong>21 profiles / 105 rows</strong>: one
+fixed profile per held-out radar from the random 2025 gallery, with five
+depths each. Selection does not use errors. This small sample
+illustrates behavior rather than estimating population importance or
+causal effects. Velocity availability can carry quality cues as well as
 movement information.</p>
+<details>
+<summary>
+<strong>Individual-feature detail: top 20</strong>
+</summary>
+<p><img src="https://icebird-viz.s3.amazonaws.com/vpts-extrapolation/radar-pairs/conus-depth1to10-upperuv-20261009-01/feature-groups-20261011/e7d547a99c2d46d3a31e1efb40df38628fbbe7b0fc69544bdb1cb72f4cac3993.png" width="1650" /></p>
+<p><img src="https://icebird-viz.s3.amazonaws.com/vpts-extrapolation/radar-pairs/conus-depth1to10-upperuv-20261009-01/feature-groups-20261011/1b35b017fb02b09f85642afb243d9644930fecb621ca71a4e3f2713aeb5a1e16.png" width="1650" /></p>
+</details>
+<p>Individual SHAP contributions plus the baseline reconstruct cube-root
+normalized density; maximum error: 2.1e-05. To recover density, sum
+contributions first, cube and clip, then multiply by upper VID. Do not
+cube individual SHAP values.</p>
 </div>
 <div id="reproduction" class="section level2">
 <h2>Reproduction</h2>
